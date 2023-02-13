@@ -1,4 +1,5 @@
 .header {
+  color: var(--primary-light);
   width: 100%;
   margin-top: 2rem;
   height: 6rem;
@@ -6,7 +7,6 @@
   display: flex;
   justify-content: space-between;
   padding: 0 5%;
-  color: var(--primary-light);
 }
 
 .header ul {
@@ -38,9 +38,9 @@
 }
 
 .active {
+  color: var(--primary-dark);
+  font-weight: var(--font-bold);
   background-color: var(--primary-yellow);
   padding: 1px 1rem;
   border-radius: 10px;
-  color: var(--primary-dark);
-  font-weight: var(--font-bold);
 }
