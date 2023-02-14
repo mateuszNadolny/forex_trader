@@ -24,17 +24,24 @@
 
 .header a:hover,
 .header a:active,
-.header a.active,
-.header button:hover {
+.header a.active {
   color: var(--primary-hover);
 }
 
 .header button {
   background: none;
   border: none;
+  padding: 5px;
   outline: none;
   color: var(--primary-light);
   font-weight: var(--font-light);
+  cursor: pointer;
+}
+
+.header button:hover {
+  color: var(--primary-yellow);
+  background-color: var(--secondary-dark);
+  border-radius: 20px;
 }
 
 .active {
