@@ -9,7 +9,9 @@ const MainHeader = () => {
 
   return (
     <header className={classes.header}>
+      <p className={`${classes.modalButton} ${classes.openButton}`}>≡</p>
       <nav>
+        <p className={`${classes.modalButton} ${classes.closeButton}`}>X</p>
         <ul>
           <li>
             <Link href="/" className={router.pathname === '/' ? `${classes.active}` : ''}>
@@ -31,10 +33,10 @@ const MainHeader = () => {
             </Link>
           </li>
         </ul>
+        <div>
+          <button>My account</button>
+        </div>
       </nav>
-      <div>
-        <button>My account</button>
-      </div>
     </header>
   );
 };
