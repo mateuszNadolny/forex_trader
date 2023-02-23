@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { Sidebar } from 'primereact/sidebar';
+import { Button } from 'primereact/button';
 
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -7,28 +9,15 @@ import classes from './MainHeader.module.css';
 
 const MainHeader = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const router = useRouter();
 
   return (
-    <header className={classes.header}>
-      <button
-        className={`${classes.modalButton} ${classes.openButton}`}
-        onClick={() => {
-          setShowMobileMenu(true);
-        }}>
-        ≡
-      </button>
-      <nav className={showMobileMenu ? '' : classes.navHidden}>
-        <button
-          className={`${classes.modalButton} ${classes.closeButton}`}
-          onClick={() => {
-            setShowMobileMenu(false);
-          }}>
-          X
-        </button>
-        <ul>
-          <li>
+    <>
+      <Sidebar visible={visible} onHide={() => setVisible(false)}>
+        <ul className={classes.ul}>
+          <li className={classes.li}>
             <Link
               href="/"
               className={router.pathname === '/' ? `${classes.active}` : ''}
@@ -38,7 +27,7 @@ const MainHeader = () => {
               Dashboard
             </Link>
           </li>
-          <li>
+          <li className={classes.li}>
             <Link
               href="/my-wallet"
               className={router.pathname === '/my-wallet' ? `${classes.active}` : ''}
@@ -48,7 +37,7 @@ const MainHeader = () => {
               My wallet
             </Link>
           </li>
-          <li>
+          <li className={classes.li}>
             <Link
               href="/history"
               className={router.pathname === '/history' ? `${classes.active}` : ''}
@@ -60,10 +49,17 @@ const MainHeader = () => {
           </li>
         </ul>
         <div>
-          <button>My account</button>
+          <button className={`${classes.accountBtn} mt-5`}>My account</button>
         </div>
-      </nav>
-    </header>
+      </Sidebar>
+      <Button
+        icon="pi pi-align-justify"
+        className="m-2"
+        rounded
+        text
+        onClick={() => setVisible(true)}
+      />
+    </>
   );
 };
 
