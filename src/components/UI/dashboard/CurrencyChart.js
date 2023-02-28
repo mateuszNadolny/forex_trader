@@ -1,3 +1,6 @@
+// USE THIS FOR CURRENCY API
+// https://app.freecurrencyapi.com/request-playground
+
 import { useState, useEffect } from 'react';
 
 import { Dropdown } from 'primereact/dropdown';
@@ -7,7 +10,6 @@ import { Chart } from 'primereact/chart';
 const CurrencyChart = () => {
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('EUR');
   const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('PLN');
-  const [dates, setDates] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [chartOptions, setChartOptions] = useState([]);
 
@@ -42,7 +44,7 @@ const CurrencyChart = () => {
       datasets: [
         {
           label: 'test',
-          data: [12, 51, 62, 33, 21, 62, 45],
+          data: [4.13, 4.28, 4.25, 4.3, 4.36, 4.23, 4.2],
           fill: true,
           borderColor: 'rgba(242, 239, 82, 1)',
           tension: 0.4,
