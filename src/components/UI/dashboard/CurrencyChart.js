@@ -7,8 +7,11 @@ import { Chart } from 'primereact/chart';
 const CurrencyChart = () => {
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('EUR');
   const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('PLN');
+  const [dates, setDates] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [chartOptions, setChartOptions] = useState([]);
+
+  // dropdown behaviour and data
 
   const currencies = [
     { name: 'EUR', code: 'EUR' },
@@ -21,49 +24,56 @@ const CurrencyChart = () => {
     (currency) => currency.code !== firstSelectedCurrency
   );
 
+  // chart labels behaviour and data
+  const today = new Date();
+  let weekDates = [];
+  for (let i = 6; i >= 0; i--) {
+    let date = new Date(today);
+    date.setDate(today.getDate() - i);
+    weekDates.push(date.toLocaleDateString());
+  }
+
   useEffect(() => {
-    const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    const gridColor = 'rgba(126, 126, 128, 0.3)';
+    const labelColor = 'rgba(126, 126, 128)';
+
     const data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: weekDates,
       datasets: [
         {
-          label: 'Third Dataset',
+          label: 'test',
           data: [12, 51, 62, 33, 21, 62, 45],
           fill: true,
-          borderColor: documentStyle.getPropertyValue('--orange-500'),
+          borderColor: 'rgba(242, 239, 82, 1)',
           tension: 0.4,
-          backgroundColor: 'rgba(255,167,38,0.2)'
+          backgroundColor: 'rgba(242, 239, 82, 0.4)'
         }
       ]
     };
     const options = {
       maintainAspectRatio: false,
-      aspectRatio: 0.6,
+      aspectRatio: 0.9,
+      responsive: true,
       plugins: {
         legend: {
-          labels: {
-            color: textColor
-          }
+          display: false
         }
       },
       scales: {
         x: {
           ticks: {
-            color: textColorSecondary
+            color: labelColor
           },
           grid: {
-            color: surfaceBorder
+            color: gridColor
           }
         },
         y: {
           ticks: {
-            color: textColorSecondary
+            color: labelColor
           },
           grid: {
-            color: surfaceBorder
+            color: gridColor
           }
         }
       }
@@ -74,7 +84,7 @@ const CurrencyChart = () => {
   }, []);
   return (
     <Card
-      className="mx-3 lg:mx-4 px-1 mt-2 md:mt-4 border-round-xl"
+      className="mx-3 lg:mx-4 px-1 border-round-xl"
       style={{ fontWeight: 'var(--font-regular)' }}>
       <div className="w-full grid px-2 mb-7">
         <p className="col-12 text-xl md:text-2xl lg:text-4xl mb-3 md:mb-6 p-0">{`Let's see things in more details`}</p>
@@ -100,7 +110,7 @@ const CurrencyChart = () => {
         />
         <p className="col-12 opacity-50">1 EUR = 4.48 PLN</p>
       </div>
-      <Chart type="line" data={chartData} options={chartOptions} className="p-0"></Chart>
+      <Chart type="line" data={chartData} options={chartOptions} className="p-0 m-0 md:m-2"></Chart>
     </Card>
   );
 };
