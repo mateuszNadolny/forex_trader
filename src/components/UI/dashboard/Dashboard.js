@@ -5,7 +5,7 @@ import CurrenciesModal from './CurrenciesModal';
 const Dashboard = () => {
   return (
     <>
-      <Chart />
+      <Chart className="p-2 m-3" />
       <CurrenciesModal />
       <TradeModal />
     </>
