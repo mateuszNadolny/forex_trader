@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import Layout from '../components/Layout/layout';
+import Layout from '../components/Layout/Layout';
 
 import { Provider } from 'react-redux';
 import { store } from '../redux/store/store';

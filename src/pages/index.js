@@ -1,9 +1,9 @@
-import Dashboard from '../components/UI/dashboard/dashboard';
+import CurrencyDashboard from '../components/UI/dashboard/CurrencyDashboard';
 
 const HomePage = () => {
   return (
     <>
-      <Dashboard />
+      <CurrencyDashboard />
     </>
   );
 };

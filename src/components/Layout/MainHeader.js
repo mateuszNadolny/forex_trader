@@ -29,6 +29,16 @@ const MainHeader = () => {
           </li>
           <li className={classes.li}>
             <Link
+              href="/trading"
+              className={router.pathname === '/trading' ? `${classes.active}` : ''}
+              onClick={() => {
+                setShowMobileMenu(false);
+              }}>
+              Trading
+            </Link>
+          </li>
+          <li className={classes.li}>
+            <Link
               href="/my-wallet"
               className={router.pathname === '/my-wallet' ? `${classes.active}` : ''}
               onClick={() => {
