@@ -43,7 +43,6 @@ const CurrencyChart = () => {
       labels: weekDates,
       datasets: [
         {
-          label: 'test',
           data: [4.13, 4.28, 4.25, 4.3, 4.36, 4.23, 4.2],
           fill: true,
           borderColor: 'rgba(242, 239, 82, 1)',
