@@ -7,6 +7,8 @@ import { Dropdown } from 'primereact/dropdown';
 import { Card } from 'primereact/card';
 import { Chart } from 'primereact/chart';
 
+import { EUR, USD, PLN, GBP } from '../../../../public/dummy-data';
+
 const CurrencyChart = () => {
   const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('PLN');
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('EUR');
@@ -26,10 +28,26 @@ const CurrencyChart = () => {
     (currency) => currency.code !== firstSelectedCurrency
   );
 
-  // chart labels behaviour and data
+  // generating chart data
+
+  function filterCurrencyRates(obj, currency) {
+    const newObj = { data: {} };
+    for (const date in obj.data) {
+      newObj.data[date] = {};
+      newObj.data[date][currency] = obj.data[date][currency];
+    }
+    const array = Object.values(newObj.data).map((item) => item[currency]);
+
+    return array;
+  }
+
+  const filteredGBP = filterCurrencyRates(EUR, 'PLN');
+  console.log(filteredGBP);
+
+  // generating chart labels
   const today = new Date();
   let weekDates = [];
-  for (let i = 6; i >= 0; i--) {
+  for (let i = 7; i >= 1; i--) {
     let date = new Date(today);
     date.setDate(today.getDate() - i);
     weekDates.push(date.toLocaleDateString());
@@ -43,7 +61,7 @@ const CurrencyChart = () => {
       labels: weekDates,
       datasets: [
         {
-          data: [4.13, 4.28, 4.25, 4.3, 4.36, 4.23, 4.2],
+          data: filteredGBP,
           fill: true,
           borderColor: 'rgba(242, 239, 82, 1)',
           tension: 0,
@@ -82,8 +100,9 @@ const CurrencyChart = () => {
 
     setChartData(data);
     setChartOptions(options);
-  }, []);
+  }, [secondSelectedCurrency]);
 
+  // preventind dropdowns from displaying the same value
   useEffect(() => {
     if (firstSelectedCurrency === secondSelectedCurrency) {
       setSecondSelectedCurrency(filteredCurrencies[1].name);
@@ -118,7 +137,7 @@ const CurrencyChart = () => {
           optionValue="code"
         />
         <p className="col-12 opacity-50">
-          {`1 ${firstSelectedCurrency} = 23 ${secondSelectedCurrency}`}
+          {`As of today: 1 ${firstSelectedCurrency} = 23 ${secondSelectedCurrency}`}
         </p>
       </div>
       <Chart type="line" data={chartData} options={chartOptions} className="p-0 m-0 md:m-2"></Chart>
