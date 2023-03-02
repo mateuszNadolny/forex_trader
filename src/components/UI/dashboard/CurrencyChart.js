@@ -12,6 +12,7 @@ import { EUR, USD, PLN, GBP } from '../../../../public/dummy-data';
 const CurrencyChart = () => {
   const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('PLN');
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('EUR');
+  const [currencyRates, setCurrencyRates] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [chartOptions, setChartOptions] = useState([]);
 
@@ -38,11 +39,8 @@ const CurrencyChart = () => {
     }
     const array = Object.values(newObj.data).map((item) => item[currency]);
 
-    return array;
+    setCurrencyRates(array);
   }
-
-  const filteredGBP = filterCurrencyRates(EUR, 'PLN');
-  console.log(filteredGBP);
 
   // generating chart labels
   const today = new Date();
@@ -53,6 +51,7 @@ const CurrencyChart = () => {
     weekDates.push(date.toLocaleDateString());
   }
 
+  // applying chart data and labels
   useEffect(() => {
     const gridColor = 'rgba(126, 126, 128, 0.3)';
     const labelColor = 'rgba(126, 126, 128)';
@@ -61,7 +60,7 @@ const CurrencyChart = () => {
       labels: weekDates,
       datasets: [
         {
-          data: filteredGBP,
+          data: currencyRates,
           fill: true,
           borderColor: 'rgba(242, 239, 82, 1)',
           tension: 0,
@@ -100,7 +99,7 @@ const CurrencyChart = () => {
 
     setChartData(data);
     setChartOptions(options);
-  }, [secondSelectedCurrency]);
+  }, [currencyRates]);
 
   // preventind dropdowns from displaying the same value
   useEffect(() => {
@@ -119,7 +118,10 @@ const CurrencyChart = () => {
           className="w-6rem"
           inputId="dd-first-currency"
           value={firstSelectedCurrency}
-          onChange={(e) => setFirstSelectedCurrency(e.value)}
+          onChange={(e) => {
+            setFirstSelectedCurrency(e.value);
+            console.log(firstSelectedCurrency);
+          }}
           options={currencies}
           optionLabel="name"
           optionValue="code"
@@ -131,7 +133,11 @@ const CurrencyChart = () => {
           className="w-6rem"
           inputId="dd-second-currency"
           value={secondSelectedCurrency}
-          onChange={(e) => setSecondSelectedCurrency(e.value)}
+          onChange={(e) => {
+            setSecondSelectedCurrency(e.value);
+            console.log(secondSelectedCurrency);
+            filterCurrencyRates(firstSelectedCurrency, secondSelectedCurrency.toString());
+          }}
           options={filteredCurrencies}
           optionLabel="name"
           optionValue="code"
