@@ -1,6 +1,3 @@
-// USE THIS FOR CURRENCY API
-// https://app.freecurrencyapi.com/request-playground
-
 import { useState, useEffect } from 'react';
 
 import { Dropdown } from 'primereact/dropdown';
@@ -20,7 +17,7 @@ const CurrencyChart = () => {
 
   // -----> SELECTED CURRENCIES BEHAVIOUR <-----
 
-  // filtering selected currencies from fetched data
+  // filtering selected currencies from fetched data and transforming them into array
   function filterCurrencyRates(obj, currency) {
     const newObj = { data: {} };
     for (const date in obj.data) {
@@ -62,7 +59,7 @@ const CurrencyChart = () => {
           fill: true,
           borderColor: 'rgba(242, 239, 82, 1)',
           tension: 0,
-          backgroundColor: 'rgba(242, 239, 82, 0.4)'
+          backgroundColor: 'rgba(242, 239, 82, 0.125)'
         }
       ]
     };
@@ -152,7 +149,9 @@ const CurrencyChart = () => {
           optionValue="code"
         />
         <p className="col-12 opacity-50">
-          {`As of today: 1 ${firstSelectedCurrency} = 4.32 ${secondSelectedCurrency}`}
+          {`As of today: 1 ${firstSelectedCurrency} = ${
+            currencyRates[currencyRates.length - 1]
+          } ${secondSelectedCurrency}`}
         </p>
       </div>
       <Chart type="line" data={chartData} options={chartOptions} className="p-0 m-0 md:m-2"></Chart>
