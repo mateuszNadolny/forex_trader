@@ -1,4 +1,4 @@
-export const USD = {
+const USD = {
   name: 'USD',
   key: 'USD',
   data: {
@@ -44,8 +44,7 @@ export const USD = {
     }
   }
 };
-
-export const EUR = {
+const EUR = {
   name: 'EUR',
   key: 'EUR',
   data: {
@@ -91,8 +90,7 @@ export const EUR = {
     }
   }
 };
-
-export const GBP = {
+const GBP = {
   name: 'GBP',
   key: 'GBP',
   data: {
@@ -186,4 +184,4 @@ const PLN = {
   }
 };
 
-export const allData = { EUR, USD, PLN, EUR };
+export const allCurrencies = { EUR, USD, PLN, EUR };
