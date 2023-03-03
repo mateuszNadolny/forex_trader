@@ -1,4 +1,6 @@
 export const USD = {
+  name: 'USD',
+  key: 'USD',
   data: {
     '2023-02-22': {
       EUR: 0.942901,
@@ -44,6 +46,8 @@ export const USD = {
 };
 
 export const EUR = {
+  name: 'EUR',
+  key: 'EUR',
   data: {
     '2023-02-22': {
       GBP: 0.880328,
@@ -89,6 +93,8 @@ export const EUR = {
 };
 
 export const GBP = {
+  name: 'GBP',
+  key: 'GBP',
   data: {
     '2023-02-22': {
       EUR: 1.13594,
@@ -134,6 +140,8 @@ export const GBP = {
 };
 
 const PLN = {
+  name: 'PLN',
+  key: 'PLN',
   data: {
     '2023-02-22': {
       EUR: 0.210548,
@@ -177,3 +185,5 @@ const PLN = {
     }
   }
 };
+
+export const allData = { EUR, USD, PLN, EUR };

@@ -54,13 +54,7 @@ const CurrencyChart = () => {
     const gridColor = 'rgba(126, 126, 128, 0.3)';
     const labelColor = 'rgba(126, 126, 128)';
 
-    console.log(firstSelectedCurrency);
-    console.log(secondSelectedCurrency);
-
-    const newCurrencies = filterCurrencyRates(
-      firstSelectedCurrency,
-      secondSelectedCurrency.toString()
-    );
+    const newCurrencies = filterCurrencyRates(firstSelectedCurrency, secondSelectedCurrency);
     setCurrencyRates(newCurrencies);
 
     const data = {
@@ -115,9 +109,9 @@ const CurrencyChart = () => {
     }
   }, [firstSelectedCurrency]);
 
-  useEffect(() => {
-    console.log(currencyRates);
-  }, [currencyRates]);
+  // useEffect(() => {
+  //   console.log(currencyRates);
+  // }, [currencyRates]);
 
   return (
     <Card
@@ -150,9 +144,9 @@ const CurrencyChart = () => {
           optionLabel="name"
           optionValue="code"
         />
-        <p className="col-12 opacity-50">
-          {`As of today: 1 ${firstSelectedCurrency} = 4.32 ${secondSelectedCurrency}`}
-        </p>
+        {/* <p className="col-12 opacity-50">
+          {`As of today: 1 ${firstSelectedCurrency.key} = 4.32 ${secondSelectedCurrency.key}`}
+        </p> */}
       </div>
       <Chart type="line" data={chartData} options={chartOptions} className="p-0 m-0 md:m-2"></Chart>
     </Card>
