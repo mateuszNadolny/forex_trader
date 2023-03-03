@@ -12,20 +12,18 @@ import { EUR, USD, PLN, GBP } from '../../../../public/dummy-data';
 const CurrencyChart = () => {
   const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('PLN');
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('EUR');
-  const [currencyRates, setCurrencyRates] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [chartOptions, setChartOptions] = useState([]);
+  const [currencyRates, setCurrencyRates] = useState(() => filterCurrencyRates(EUR, 'PLN'));
 
-  // dropdown behaviour and data
-
-  const currencies = [
+  const firstDropdownOptions = [
     { name: 'EUR', code: 'EUR' },
     { name: 'USD', code: 'USD' },
     { name: 'PLN', code: 'PLN' },
     { name: 'GBP', code: 'GBP' }
   ];
 
-  const filteredCurrencies = currencies.filter(
+  const secondDropdownOptions = firstDropdownOptions.filter(
     (currency) => currency.code !== firstSelectedCurrency
   );
 
@@ -39,7 +37,7 @@ const CurrencyChart = () => {
     }
     const array = Object.values(newObj.data).map((item) => item[currency]);
 
-    setCurrencyRates(array);
+    return array;
   }
 
   // generating chart labels
@@ -55,6 +53,15 @@ const CurrencyChart = () => {
   useEffect(() => {
     const gridColor = 'rgba(126, 126, 128, 0.3)';
     const labelColor = 'rgba(126, 126, 128)';
+
+    console.log(firstSelectedCurrency);
+    console.log(secondSelectedCurrency);
+
+    const newCurrencies = filterCurrencyRates(
+      firstSelectedCurrency,
+      secondSelectedCurrency.toString()
+    );
+    setCurrencyRates(newCurrencies);
 
     const data = {
       labels: weekDates,
@@ -99,14 +106,18 @@ const CurrencyChart = () => {
 
     setChartData(data);
     setChartOptions(options);
-  }, [currencyRates]);
+  }, [secondSelectedCurrency]);
 
-  // preventind dropdowns from displaying the same value
+  //  preventing dropdowns from displaying the same value
   useEffect(() => {
     if (firstSelectedCurrency === secondSelectedCurrency) {
-      setSecondSelectedCurrency(filteredCurrencies[1].name);
+      setSecondSelectedCurrency(secondDropdownOptions[1].name);
     }
   }, [firstSelectedCurrency]);
+
+  useEffect(() => {
+    console.log(currencyRates);
+  }, [currencyRates]);
 
   return (
     <Card
@@ -119,10 +130,9 @@ const CurrencyChart = () => {
           inputId="dd-first-currency"
           value={firstSelectedCurrency}
           onChange={(e) => {
-            setFirstSelectedCurrency(e.value);
-            console.log(firstSelectedCurrency);
+            setFirstSelectedCurrency(e.target.value);
           }}
-          options={currencies}
+          options={firstDropdownOptions}
           optionLabel="name"
           optionValue="code"
         />
@@ -134,16 +144,14 @@ const CurrencyChart = () => {
           inputId="dd-second-currency"
           value={secondSelectedCurrency}
           onChange={(e) => {
-            setSecondSelectedCurrency(e.value);
-            console.log(secondSelectedCurrency);
-            filterCurrencyRates(firstSelectedCurrency, secondSelectedCurrency.toString());
+            setSecondSelectedCurrency(e.target.value);
           }}
-          options={filteredCurrencies}
+          options={secondDropdownOptions}
           optionLabel="name"
           optionValue="code"
         />
         <p className="col-12 opacity-50">
-          {`As of today: 1 ${firstSelectedCurrency} = 23 ${secondSelectedCurrency}`}
+          {`As of today: 1 ${firstSelectedCurrency} = 4.32 ${secondSelectedCurrency}`}
         </p>
       </div>
       <Chart type="line" data={chartData} options={chartOptions} className="p-0 m-0 md:m-2"></Chart>
