@@ -41,6 +41,8 @@ const EUR = {
 };
 
 const CurrencyDashboard = () => {
+  // filtering data - start
+
   function filterCurrencyRates(obj, currency) {
     const newObj = { data: {} };
     for (const date in obj.data) {
@@ -52,6 +54,9 @@ const CurrencyDashboard = () => {
 
   const filteredGBP = filterCurrencyRates(EUR, 'GBP');
   console.log(filteredGBP);
+
+  // filtering data - end
+
   return (
     <>
       <CurrencyChart />
