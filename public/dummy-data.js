@@ -184,4 +184,4 @@ const PLN = {
   }
 };
 
-export const allCurrencies = { EUR, USD, PLN, EUR };
+export const allCurrencies = { EUR, USD, PLN, GBP };
