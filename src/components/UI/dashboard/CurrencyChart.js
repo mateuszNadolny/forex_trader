@@ -121,8 +121,8 @@ const CurrencyChart = () => {
     <Card
       className="mx-3 lg:mx-4 px-1 border-round-xl"
       style={{ fontWeight: 'var(--font-regular)' }}>
-      <div className="w-full grid px-2 mb-7">
-        <p className="col-12 text-xl md:text-2xl lg:text-4xl mb-3 md:mb-6 p-0">{`Let's see things in more details`}</p>
+      <div className="w-full grid px-2 mb-3">
+        <p className="col-12 text-xl md:text-2xl lg:text-4xl mb-2 md:mb-3 p-0">{`Let's see things in more details`}</p>
         <Dropdown
           className="w-6rem"
           inputId="dd-first-currency"
@@ -154,7 +154,7 @@ const CurrencyChart = () => {
           } ${secondSelectedCurrency}`}
         </p>
       </div>
-      <Chart type="line" data={chartData} options={chartOptions} className="p-0 m-0 md:m-2"></Chart>
+      <Chart type="line" data={chartData} options={chartOptions} className="p-0 m-0 md:m-1"></Chart>
     </Card>
   );
 };
