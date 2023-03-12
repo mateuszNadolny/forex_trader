@@ -9,9 +9,9 @@ import GBPpic from '../../../../public/GBP.png';
 const MyCurrenciesModal = () => {
   return (
     <Card
-      className="m-3 lg:m-4 px-1 border-round-xl "
+      className="px-1 border-round-xl w-12 lg:w-4"
       style={{ fontWeight: 'var(--font-regular)' }}>
-      <p className="col-12 text-2xl mb-3 p-0">My currencies:</p>
+      <p className="col-12 text-2xl mb-4 p-0">My currencies:</p>
       <ul>
         <li className="flex align-items-center mt-2">
           <Image src={PLNpic} width={30} height={30} alt={'Polish flag'} />

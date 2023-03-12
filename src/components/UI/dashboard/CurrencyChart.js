@@ -119,7 +119,7 @@ const CurrencyChart = () => {
 
   return (
     <Card
-      className="mx-3 lg:mx-4 px-1 border-round-xl"
+      className="mx-3 lg:mx-4 mb-3 lg:mb-0 px-1 border-round-xl "
       style={{ fontWeight: 'var(--font-regular)' }}>
       <div className="w-full grid px-2 mb-3">
         <p className="col-12 text-xl md:text-2xl lg:text-4xl mb-2 md:mb-3 p-0">{`Let's see things in more details`}</p>
