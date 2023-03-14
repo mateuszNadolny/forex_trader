@@ -65,7 +65,7 @@ const CurrencyChart = () => {
     };
     const options = {
       maintainAspectRatio: false,
-      aspectRatio: 0.9,
+      aspectRatio: 1.2,
       responsive: true,
       plugins: {
         legend: {
@@ -120,7 +120,7 @@ const CurrencyChart = () => {
   return (
     <Card className="mx-3 lg:mx-4 mb-3 lg:mb-0 px-1 border-round-xl font-light">
       <div className="w-full grid px-2 mb-3">
-        <p className="col-12 text-xl md:text-2xl lg:text-4xl mb-2 md:mb-3 p-0">{`Let's see things in more details`}</p>
+        <p className="col-12 text-xl md:text-2xl lg:text-4xl mb-2 lg:mb-4 p-0">{`Let's see things in more details`}</p>
         <Dropdown
           className="w-6rem"
           inputId="dd-first-currency"
@@ -146,7 +146,7 @@ const CurrencyChart = () => {
           optionLabel="name"
           optionValue="code"
         />
-        <p className="col-12 opacity-50">
+        <p className="col-12 opacity-50 lg:mt-3 lg:mb-3">
           {`As of today: 1 ${firstSelectedCurrency} = ${
             currencyRates[currencyRates.length - 1]
           } ${secondSelectedCurrency}`}

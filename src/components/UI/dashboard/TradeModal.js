@@ -1,12 +1,10 @@
 import { Card } from 'primereact/card';
 
-import classes from './TradeModal.module.css';
-
 const TradeModal = () => {
   return (
     <Card
-      className={`px-1 border-round-xl w-12 lg:w-10 font-light text-black-alpha-90 ${classes.card}`}
-      style={{ fontWeight: 'var(--font-regular)' }}>
+      className="px-1 border-round-xl w-12 lg:w-4 font-light text-black-alpha-90"
+      style={{ backgroundColor: 'var(--primary-yellow)' }}>
       <p className="col-12 text-2xl mb-3 p-0 ">Shall we trade?</p>
       <ul>
         <li className="flex align-items-center mt-2">
