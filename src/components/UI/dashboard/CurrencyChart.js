@@ -59,7 +59,7 @@ const CurrencyChart = () => {
           fill: true,
           borderColor: 'rgba(242, 239, 82, 1)',
           tension: 0,
-          backgroundColor: 'rgba(242, 239, 82, 0.125)'
+          backgroundColor: 'rgba(242, 239, 82, 0.3)'
         }
       ]
     };
