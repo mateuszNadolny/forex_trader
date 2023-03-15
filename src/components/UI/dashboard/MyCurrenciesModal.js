@@ -24,33 +24,3 @@ const MyCurrenciesModal = () => {
 };
 
 export default MyCurrenciesModal;
-
-// LEGACY CODE
-{
-  /* <ul>
-<li className="flex align-items-center mt-2">
-  <Image src={PLNpic} width={30} height={30} alt={'Polish flag'} />
-  <p className="ml-3 opacity-70">
-    Polish Zloty: <span className="font-semibold">2593.23 ZŁ</span>
-  </p>
-</li>
-<li className="flex align-items-center mt-2">
-  <Image src={EURpic} width={30} height={30} alt={'European Union flag'} />
-  <p className="ml-3 opacity-70">
-    Euro: <span className="font-semibold">2593.23 €</span>
-  </p>
-</li>
-<li className="flex align-items-center mt-2">
-  <Image src={USDpic} width={30} height={30} alt={'Polish flag'} />
-  <p className="ml-3 opacity-70">
-    American Dollar: <span className="font-semibold">2593.23 $</span>
-  </p>
-</li>
-<li className="flex align-items-center mt-2">
-  <Image src={GBPpic} width={30} height={30} alt={'Polish flag'} />
-  <p className="ml-3 opacity-70">
-    British Pound: <span className="font-semibold">2593.23 £</span>
-  </p>
-</li>
-</ul> */
-}
