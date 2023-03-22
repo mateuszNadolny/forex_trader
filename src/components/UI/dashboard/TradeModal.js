@@ -2,6 +2,8 @@ import { Card } from 'primereact/card';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
 
+import classes from './TradeModal.module.css';
+
 const TradeModal = () => {
   return (
     <Card
@@ -9,13 +11,11 @@ const TradeModal = () => {
       style={{ backgroundColor: 'var(--primary-yellow)' }}>
       <p className="col-12 text-2xl mb-3 p-0 ">Shall we trade?</p>
       <div>
-        <div className="border-round-xl border-solid p-2 flex gap-2 lg:w-7 w-full">
-          <InputNumber className="" />
-          <Dropdown className="" />
+        <div className="border-round-xl p-0 flex gap-2 w-auto">
+          <InputNumber className="border-round-2xl" />
+          <Dropdown className="border-round-3xl" />
         </div>
-        <i className="pi pi-arrow-circle-down" style={{ fontSize: '1.125rem' }}></i>
         <div className="border-round-xl border-solid p-2 flex gap-2 w-7">
-          <InputNumber />
           <Dropdown />
         </div>
       </div>
