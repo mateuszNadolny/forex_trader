@@ -8,7 +8,6 @@ import { useState } from 'react';
 import classes from './MainHeader.module.css';
 
 const MainHeader = () => {
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [visible, setVisible] = useState(false);
 
   const router = useRouter();
@@ -22,29 +21,9 @@ const MainHeader = () => {
               href="/"
               className={router.pathname === '/' ? `${classes.active}` : ''}
               onClick={() => {
-                setShowMobileMenu(false);
+                setVisible(false);
               }}>
               Dashboard
-            </Link>
-          </li>
-          <li className={classes.li}>
-            <Link
-              href="/trading"
-              className={router.pathname === '/trading' ? `${classes.active}` : ''}
-              onClick={() => {
-                setShowMobileMenu(false);
-              }}>
-              Trading
-            </Link>
-          </li>
-          <li className={classes.li}>
-            <Link
-              href="/my-wallet"
-              className={router.pathname === '/my-wallet' ? `${classes.active}` : ''}
-              onClick={() => {
-                setShowMobileMenu(false);
-              }}>
-              My wallet
             </Link>
           </li>
           <li className={classes.li}>
@@ -52,7 +31,7 @@ const MainHeader = () => {
               href="/history"
               className={router.pathname === '/history' ? `${classes.active}` : ''}
               onClick={() => {
-                setShowMobileMenu(false);
+                setVisible(false);
               }}>
               History
             </Link>
