@@ -13,7 +13,7 @@ const MyCurrenciesModal = () => {
         <p className="lg:w-7 sm:w-12 text-2xl mb-2 lg:mb-4 p-0">My wallet</p>
         <p className="lg:w-3 sm:w-12 text-lg mb-2 p-0 text-yellow-200 font-medium">Total value:</p>
       </div>
-      <div className="flex gap-3 overflow-x-scroll xl:overflow-x-visible ">
+      <div className="flex gap-3 overflow-x-auto ">
         <CurrencyCard img={PLNpic} title={'Polish Złoty'} value={2532.0} sign={'ZŁ'} />
         <CurrencyCard img={EURpic} title={'Euro'} value={2432.0} sign={'€'} />
         <CurrencyCard img={USDpic} title={'American Dollar'} value={11.23} sign={'$'} />
