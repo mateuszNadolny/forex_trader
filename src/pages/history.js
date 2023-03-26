@@ -1,5 +1,7 @@
+import HistoryTable from '@/components/UI/history/HistoryTable';
+
 const HistoryPage = () => {
-  return <></>;
+  return <>{/* <HistoryTable></HistoryTable> */}</>;
 };
 
 export default HistoryPage;

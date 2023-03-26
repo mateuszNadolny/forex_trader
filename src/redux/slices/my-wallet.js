@@ -5,7 +5,7 @@ const initialState = {
   euro: 0,
   usd: 0,
   gbp: 0,
-  pln: 0
+  pln: 10000
 };
 
 export const currencySlice = createSlice({

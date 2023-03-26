@@ -24,7 +24,7 @@ const TradeModal = () => {
   return (
     <Card className="border-round-xl w-12 lg:w-4 font-light bg-primary">
       <p className="col-12 text-2xl mb-2 p-0 ">Shall we trade?</p>
-      <div className="mb-4 grid">
+      <div className="mb-3 grid">
         <div className="flex-auto col-12 xl:col-5 mr-2">
           <label htmlFor="amountToExchange" className="block text-sm opacity-60">
             Amount
@@ -63,6 +63,11 @@ const TradeModal = () => {
             optionValue="code"
           />
         </div>
+      </div>
+      <div className="flex mb-4 text-sm justify-content-center sm:justify-content-start">
+        <p>
+          As of today, 1 {firstSelectedCurrency} is equivalent to 4.234 {secondSelectedCurrency}
+        </p>
       </div>
       <div className="flex flex-wrap gap-3 w-12 xl:justify-content-between justify-content-center">
         <div className="flex w-8 justify-content-center sm:justify-content-start text-lg border-y-2 p-2">
