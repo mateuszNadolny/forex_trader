@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const currencyRatesSlice = createSlice({
   name: 'currencyRates',
-  initialState: ['test value', 'test value 2'],
+  initialState: [],
   reducers: {
     filterCurrencyRates: (state, action) => {
       const { obj, currency } = action.payload;

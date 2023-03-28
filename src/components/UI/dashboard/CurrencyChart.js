@@ -18,13 +18,13 @@ const CurrencyChart = () => {
 
   const dispatch = useDispatch();
 
-  const onChangeSecondDropdownHandler = (event) => {
+  const onChangeDropdownHandler = (event) => {
     const selectedCurrency = event.target.value;
     setSecondSelectedCurrency(selectedCurrency);
     dispatch(
       currencyActions.filterCurrencyRates({
         obj: allCurrencies[`${firstSelectedCurrency}`],
-        currency: selectedCurrency // use the newly selected currency here
+        currency: selectedCurrency
       })
     );
   };
@@ -88,9 +88,7 @@ const CurrencyChart = () => {
 
     setChartData(data);
     setChartOptions(options);
-    console.log(currencyRates);
-    // console.log(data);
-  }, [firstSelectedCurrency, secondSelectedCurrency]);
+  }, [firstSelectedCurrency, currencyRates]);
 
   // -----> DROPDOWN BEHAVIOUR <-----
 
@@ -109,7 +107,14 @@ const CurrencyChart = () => {
   // preventing dropdowns from displaying the same value
   useEffect(() => {
     if (firstSelectedCurrency === secondSelectedCurrency) {
-      setSecondSelectedCurrency(secondDropdownOptions[1].name);
+      setFirstSelectedCurrency('EUR');
+      setSecondSelectedCurrency('PLN');
+      dispatch(
+        currencyActions.filterCurrencyRates({
+          obj: allCurrencies['EUR'],
+          currency: 'PLN'
+        })
+      );
     }
   }, [firstSelectedCurrency]);
 
@@ -123,6 +128,7 @@ const CurrencyChart = () => {
           value={firstSelectedCurrency}
           onChange={(e) => {
             setFirstSelectedCurrency(e.target.value);
+            console.log(e.target.value);
           }}
           options={firstDropdownOptions}
           optionLabel="name"
@@ -135,25 +141,18 @@ const CurrencyChart = () => {
           className="w-6rem"
           inputId="dd-second-currency"
           value={secondSelectedCurrency}
-          onChange={
-            onChangeSecondDropdownHandler
-            // setSecondSelectedCurrency(e.target.value);
-            // dispatch(
-            //   currencyActions.filterCurrencyRates({
-            //     obj: allCurrencies[firstSelectedCurrency],
-            //     currency: secondSelectedCurrency
-            //   })
-            // );
-          }
+          onChange={onChangeDropdownHandler}
           options={secondDropdownOptions}
           optionLabel="name"
           optionValue="code"
         />
-        <p className="col-12 opacity-50 lg:mt-3 lg:mb-3">
-          {`As of today: 1 ${firstSelectedCurrency} = ${
-            currencyRates[currencyRates.length - 1]
-          } ${secondSelectedCurrency}`}
-        </p>
+        {currencyRates.length > 1 && (
+          <p className="col-12 opacity-50 lg:mt-3 lg:mb-3">
+            {`As of today: 1 ${firstSelectedCurrency} = ${
+              currencyRates[currencyRates.length - 1]
+            } ${secondSelectedCurrency}`}
+          </p>
+        )}
       </div>
       <Chart type="line" data={chartData} options={chartOptions} className="p-0 m-0 md:m-1"></Chart>
     </Card>
