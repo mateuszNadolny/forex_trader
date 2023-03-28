@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { Dropdown } from 'primereact/dropdown';
 import { Card } from 'primereact/card';
 import { Chart } from 'primereact/chart';
+
+import { currencyActions } from '@/redux/slices/currency-rates-slice';
 
 import { allCurrencies } from '../../../../public/dummy-data';
 
@@ -11,29 +14,20 @@ const CurrencyChart = () => {
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('EUR');
   const [chartData, setChartData] = useState([]);
   const [chartOptions, setChartOptions] = useState([]);
-  const [currencyRates, setCurrencyRates] = useState(() =>
-    filterCurrencyRates(allCurrencies.EUR, 'PLN')
-  );
+  const currencyRates = useSelector((state) => state.currencyRates);
 
-  // -----> SELECTED CURRENCIES BEHAVIOUR <-----
+  const dispatch = useDispatch();
 
-  // filtering selected currencies from fetched data and transforming them into array
-  function filterCurrencyRates(obj, currency) {
-    const newObj = { data: {} };
-    for (const date in obj.data) {
-      newObj.data[date] = {};
-      newObj.data[date][currency] = obj.data[date][currency];
-    }
-    const array = Object.values(newObj.data).map((item) => item[currency]);
-
-    return array;
-  }
-
-  // re-genereting chart based on chosen currencies data
-  useEffect(() => {
-    const arr = filterCurrencyRates(allCurrencies[firstSelectedCurrency], secondSelectedCurrency);
-    setCurrencyRates(arr);
-  }, [secondSelectedCurrency]);
+  const onChangeSecondDropdownHandler = (event) => {
+    const selectedCurrency = event.target.value;
+    setSecondSelectedCurrency(selectedCurrency);
+    dispatch(
+      currencyActions.filterCurrencyRates({
+        obj: allCurrencies[firstSelectedCurrency],
+        currency: selectedCurrency // use the newly selected currency here
+      })
+    );
+  };
 
   // -----> CHART BEHAVIOUR <-----
 
@@ -94,7 +88,9 @@ const CurrencyChart = () => {
 
     setChartData(data);
     setChartOptions(options);
-  }, [currencyRates]);
+    console.log(currencyRates);
+    // console.log(data);
+  }, [secondSelectedCurrency]);
 
   // -----> DROPDOWN BEHAVIOUR <-----
 
@@ -139,9 +135,16 @@ const CurrencyChart = () => {
           className="w-6rem"
           inputId="dd-second-currency"
           value={secondSelectedCurrency}
-          onChange={(e) => {
-            setSecondSelectedCurrency(e.target.value);
-          }}
+          onChange={
+            onChangeSecondDropdownHandler
+            // setSecondSelectedCurrency(e.target.value);
+            // dispatch(
+            //   currencyActions.filterCurrencyRates({
+            //     obj: allCurrencies[firstSelectedCurrency],
+            //     currency: secondSelectedCurrency
+            //   })
+            // );
+          }
           options={secondDropdownOptions}
           optionLabel="name"
           optionValue="code"
