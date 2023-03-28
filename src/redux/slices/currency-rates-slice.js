@@ -14,7 +14,7 @@ const currencyRatesSlice = createSlice({
         newObj.data[date][currency] = obj.data[date][currency];
       }
       const array = Object.values(newObj.data).map((item) => item[currency]);
-      state = [...array];
+      return [...array];
     }
   }
 });

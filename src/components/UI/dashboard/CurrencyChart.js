@@ -23,7 +23,7 @@ const CurrencyChart = () => {
     setSecondSelectedCurrency(selectedCurrency);
     dispatch(
       currencyActions.filterCurrencyRates({
-        obj: allCurrencies[firstSelectedCurrency],
+        obj: allCurrencies[`${firstSelectedCurrency}`],
         currency: selectedCurrency // use the newly selected currency here
       })
     );
@@ -90,7 +90,7 @@ const CurrencyChart = () => {
     setChartOptions(options);
     console.log(currencyRates);
     // console.log(data);
-  }, [secondSelectedCurrency]);
+  }, [firstSelectedCurrency, secondSelectedCurrency]);
 
   // -----> DROPDOWN BEHAVIOUR <-----
 
