@@ -88,9 +88,19 @@ const CurrencyChart = () => {
 
     setChartData(data);
     setChartOptions(options);
-  }, [firstSelectedCurrency, currencyRates]);
+  }, [firstSelectedCurrency, secondSelectedCurrency, currencyRates]);
 
   // -----> DROPDOWN BEHAVIOUR <-----
+
+  //generating chart when the app starts
+  useEffect(() => {
+    dispatch(
+      currencyActions.filterCurrencyRates({
+        obj: allCurrencies[`${firstSelectedCurrency}`],
+        currency: secondSelectedCurrency
+      })
+    );
+  }, [dispatch, firstSelectedCurrency]);
 
   // first dropdown options
   const firstDropdownOptions = [
@@ -116,7 +126,7 @@ const CurrencyChart = () => {
         })
       );
     }
-  }, [firstSelectedCurrency]);
+  }, [dispatch, firstSelectedCurrency, secondSelectedCurrency]);
 
   return (
     <Card className="mx-3 lg:mx-4 mb-3 lg:mb-0 px-1 border-round-xl font-light">
@@ -128,7 +138,6 @@ const CurrencyChart = () => {
           value={firstSelectedCurrency}
           onChange={(e) => {
             setFirstSelectedCurrency(e.target.value);
-            console.log(e.target.value);
           }}
           options={firstDropdownOptions}
           optionLabel="name"
