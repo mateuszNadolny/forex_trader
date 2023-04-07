@@ -12,6 +12,7 @@ const TradeModal = () => {
   const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('PLN');
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('EUR');
   const [amountToExchange, setAmountToExchange] = useState(0);
+  const [amountToReceive, setAmountToReceive] = useState(0);
 
   const firstDropdownOptions = [
     { name: 'EUR', code: 'EUR' },
@@ -24,14 +25,20 @@ const TradeModal = () => {
     (currency) => currency.code !== firstSelectedCurrency
   );
 
-  let content;
-  let amountToReceive;
-
   const { data, error, isLoading, isError } = useGetLatestRateQuery(
     firstSelectedCurrency,
     secondSelectedCurrency
   );
 
+  useEffect(() => {
+    if (data && !isLoading && !isError) {
+      const rate = data.data[secondSelectedCurrency];
+      const newAmountToReceive = (amountToExchange * rate).toFixed(2);
+      setAmountToReceive(newAmountToReceive);
+    }
+  }, [amountToExchange, data, isLoading, isError, secondSelectedCurrency]);
+
+  let content;
   if (isLoading) {
     content = <ProgressSpinner />;
   } else if (isError) {
@@ -60,7 +67,7 @@ const TradeModal = () => {
             className="w-full"
             value={amountToExchange}
             onValueChange={(e) => {
-              console.log(e.value);
+              setAmountToExchange(e.value);
             }}
           />
         </div>
