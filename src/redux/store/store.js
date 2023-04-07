@@ -1,14 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
+
+import { currencyApi } from '../api/apiSlice';
 
 import currencyRatesSlice from '../slices/currency-rates-slice';
 
 export const store = configureStore({
-  reducer: { currencyRates: currencyRatesSlice.reducer }
+  reducer: {
+    [currencyApi.reducerPath]: currencyApi.reducer,
+    currencyRates: currencyRatesSlice.reducer
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(currencyApi.middleware)
 });
 
-// preventing dropdowns from displaying the same value
-// useEffect(() => {
-//   if (firstSelectedCurrency === secondSelectedCurrency) {
-//     setSecondSelectedCurrency(secondDropdownOptions[1].name);
-//   }
-// }, [firstSelectedCurrency]);
+setupListeners(store.dispatch);

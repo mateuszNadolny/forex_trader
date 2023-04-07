@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect, use } from 'react';
+import { useGetLatestRateQuery } from '../../../redux/api/apiSlice';
 
 import { Card } from 'primereact/card';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 import { Button } from 'primereact/button';
 
 const TradeModal = () => {
   const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('PLN');
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('EUR');
+  const [amountToExchange, setAmountToExchange] = useState(0);
 
   const firstDropdownOptions = [
     { name: 'EUR', code: 'EUR' },
@@ -21,6 +24,27 @@ const TradeModal = () => {
     (currency) => currency.code !== firstSelectedCurrency
   );
 
+  let content;
+  let amountToReceive;
+
+  const { data, error, isLoading, isError } = useGetLatestRateQuery(
+    firstSelectedCurrency,
+    secondSelectedCurrency
+  );
+
+  if (isLoading) {
+    content = <ProgressSpinner />;
+  } else if (isError) {
+    content = <p>{error}</p>;
+  } else if (data) {
+    content = (
+      <p>
+        As of today, 1 {firstSelectedCurrency} is equivalent to{' '}
+        {data.data[secondSelectedCurrency].toFixed(2)} {secondSelectedCurrency}
+      </p>
+    );
+  }
+
   return (
     <Card className="border-round-xl w-12 lg:w-4 font-light bg-primary">
       <p className="col-12 text-2xl mb-2 p-0 ">Shall we trade?</p>
@@ -29,7 +53,16 @@ const TradeModal = () => {
           <label htmlFor="amountToExchange" className="block text-sm opacity-60">
             Amount
           </label>
-          <InputNumber inputId="amountToExchange" maxFractionDigits={2} className="w-full" />
+          <InputNumber
+            inputId="amountToExchange"
+            maxFractionDigits={2}
+            min={0}
+            className="w-full"
+            value={amountToExchange}
+            onValueChange={(e) => {
+              console.log(e.value);
+            }}
+          />
         </div>
         <div className="flex-auto col-5 xl:col-2">
           <label htmlFor="fromCurrency" className="block text-sm opacity-60">
@@ -65,14 +98,12 @@ const TradeModal = () => {
         </div>
       </div>
       <div className="flex mb-4 text-sm justify-content-center sm:justify-content-start">
-        <p>
-          As of today, 1 {firstSelectedCurrency} is equivalent to 4.234 {secondSelectedCurrency}
-        </p>
+        {content}
       </div>
       <div className="flex flex-wrap gap-3 w-12 xl:justify-content-between justify-content-center">
         <div className="flex w-8 justify-content-center sm:justify-content-start text-lg border-y-2 p-2">
           <p className="align-self-center mr-3">Receive: </p>
-          <p className="font-bold align-self-center">1234 EUR</p>
+          <p className="font-bold align-self-center">{amountToReceive}</p>
         </div>
         <Button
           icon="pi pi-arrow-right-arrow-left"

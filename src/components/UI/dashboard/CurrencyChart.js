@@ -18,23 +18,21 @@ const CurrencyChart = () => {
 
   const dispatch = useDispatch();
 
-  const onChangeDropdownHandler = (event) => {
-    const selectedCurrency = event.target.value;
-    setSecondSelectedCurrency(selectedCurrency);
-    dispatch(
-      currencyActions.filterCurrencyRates({
-        obj: allCurrencies[`${firstSelectedCurrency}`],
-        currency: selectedCurrency
-      })
-    );
-  };
-
-  // -----> CHART BEHAVIOUR <-----
+  const firstDropdownOptions = [
+    { name: 'EUR', code: 'EUR' },
+    { name: 'USD', code: 'USD' },
+    { name: 'PLN', code: 'PLN' },
+    { name: 'GBP', code: 'GBP' }
+  ];
+  // generating second dropdown options basing on options from first dropdown
+  const secondDropdownOptions = firstDropdownOptions.filter(
+    (currency) => currency.code !== firstSelectedCurrency
+  );
 
   // generating last 7 days dates for chart labels
   const today = new Date();
   let weekDates = [];
-  for (let i = 7; i >= 1; i--) {
+  for (let i = 7; i >= 0; i--) {
     let date = new Date(today);
     date.setDate(today.getDate() - i);
     weekDates.push(date.toLocaleDateString());
@@ -90,9 +88,7 @@ const CurrencyChart = () => {
     setChartOptions(options);
   }, [firstSelectedCurrency, secondSelectedCurrency, currencyRates]);
 
-  // -----> DROPDOWN BEHAVIOUR <-----
-
-  //generating chart when the app starts
+  //generating chart when the app starts or when any of the dropdown values change
   useEffect(() => {
     dispatch(
       currencyActions.filterCurrencyRates({
@@ -100,19 +96,7 @@ const CurrencyChart = () => {
         currency: secondSelectedCurrency
       })
     );
-  }, [dispatch, firstSelectedCurrency]);
-
-  // first dropdown options
-  const firstDropdownOptions = [
-    { name: 'EUR', code: 'EUR' },
-    { name: 'USD', code: 'USD' },
-    { name: 'PLN', code: 'PLN' },
-    { name: 'GBP', code: 'GBP' }
-  ];
-  // generating second dropdown options basing on options from first dropdown
-  const secondDropdownOptions = firstDropdownOptions.filter(
-    (currency) => currency.code !== firstSelectedCurrency
-  );
+  }, [dispatch, firstSelectedCurrency, secondSelectedCurrency]);
 
   // preventing dropdowns from displaying the same value
   useEffect(() => {
@@ -150,7 +134,9 @@ const CurrencyChart = () => {
           className="w-6rem"
           inputId="dd-second-currency"
           value={secondSelectedCurrency}
-          onChange={onChangeDropdownHandler}
+          onChange={(e) => {
+            setSecondSelectedCurrency(e.target.value);
+          }}
           options={secondDropdownOptions}
           optionLabel="name"
           optionValue="code"
