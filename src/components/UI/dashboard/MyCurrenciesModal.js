@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+
 import { Card } from 'primereact/card';
 import CurrencyCard from './CurrencyCard';
 
@@ -7,6 +9,8 @@ import PLNpic from '../../../../public/PLN.png';
 import GBPpic from '../../../../public/GBP.png';
 
 const MyCurrenciesModal = () => {
+  const myWallet = useSelector((state) => state.myWallet);
+
   return (
     <Card className="px-1 border-round-xl w-12 lg:w-8 font-light border-solid border-yellow-300 surface-ground">
       <div className="lg:flex justify-content-between">
@@ -18,22 +22,28 @@ const MyCurrenciesModal = () => {
           img={PLNpic}
           alt={'image of PLN zloty'}
           title={'Polish Złoty'}
-          value={2532.0}
+          value={myWallet.PLN}
           sign={'ZŁ'}
         />
-        <CurrencyCard img={EURpic} alt={'image of EURO'} title={'Euro'} value={2432.0} sign={'€'} />
+        <CurrencyCard
+          img={EURpic}
+          alt={'image of EURO'}
+          title={'Euro'}
+          value={myWallet.EUR}
+          sign={'€'}
+        />
         <CurrencyCard
           img={USDpic}
           alt={'image of US Dollar'}
           title={'American Dollar'}
-          value={11.23}
+          value={myWallet.USD}
           sign={'$'}
         />
         <CurrencyCard
           img={GBPpic}
           alt={'image of GB Pound'}
           title={'British Pound'}
-          value={59.12}
+          value={myWallet.GBP}
           sign={'£'}
         />
       </div>

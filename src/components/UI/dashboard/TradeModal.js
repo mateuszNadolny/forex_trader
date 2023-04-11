@@ -1,18 +1,23 @@
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCurrencyValue } from '../../../redux/slices/my-wallet-slice';
 import { useGetLatestRateQuery } from '../../../redux/api/apiSlice';
 
 import { Card } from 'primereact/card';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
 import { ProgressSpinner } from 'primereact/progressspinner';
-
 import { Button } from 'primereact/button';
+import { Toast } from 'primereact/toast';
 
 const TradeModal = () => {
-  const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('PLN');
-  const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('EUR');
+  const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('EUR');
+  const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('PLN');
   const [amountToExchange, setAmountToExchange] = useState(0);
   const [amountToReceive, setAmountToReceive] = useState(0);
+  const toast = useRef(null);
+  const myWallet = useSelector((state) => state.myWallet);
+  const dispatch = useDispatch();
 
   const firstDropdownOptions = [
     { name: 'EUR', code: 'EUR' },
@@ -30,6 +35,33 @@ const TradeModal = () => {
     secondSelectedCurrency
   );
 
+  const showToast = (obj) => {
+    toast.current.show({ severity: obj.severity, summary: 'Error', detail: obj.message });
+  };
+
+  const exchangeCurrencyHandler = () => {
+    if (myWallet[firstSelectedCurrency] < amountToExchange) {
+      const toastParams = { severity: 'error', message: 'Sorry, insufficient funds!' };
+      showToast(toastParams);
+      return;
+    }
+    dispatch(
+      setCurrencyValue({
+        currencyToSell: firstSelectedCurrency,
+        currencyToBuy: secondSelectedCurrency,
+        valueToSell: +amountToExchange,
+        valueToBuy: +amountToReceive
+      })
+    );
+    setAmountToExchange(0);
+    setAmountToReceive(0);
+    const toastParams = {
+      severity: 'success',
+      message: 'Exchange submitted successfully!'
+    };
+    showToast(toastParams);
+  };
+
   useEffect(() => {
     if (data && !isLoading && !isError) {
       const rate = data.data[secondSelectedCurrency];
@@ -46,7 +78,7 @@ const TradeModal = () => {
   } else if (data) {
     content = (
       <p>
-        As of today, 1 {firstSelectedCurrency} is equivalent to{' '}
+        As of today, 1 {firstSelectedCurrency} is equivalent to {''}
         {data.data[secondSelectedCurrency].toFixed(2)} {secondSelectedCurrency}
       </p>
     );
@@ -54,6 +86,7 @@ const TradeModal = () => {
 
   return (
     <Card className="border-round-xl w-12 lg:w-4 font-light bg-primary">
+      <Toast ref={toast} position="top-left" />
       <p className="col-12 text-2xl mb-2 p-0 ">Shall we trade?</p>
       <div className="mb-3 grid">
         <div className="flex-auto col-12 xl:col-5 mr-2">
@@ -64,6 +97,7 @@ const TradeModal = () => {
             inputId="amountToExchange"
             maxFractionDigits={2}
             min={0}
+            max={10000}
             className="w-full"
             value={amountToExchange}
             onValueChange={(e) => {
@@ -110,12 +144,17 @@ const TradeModal = () => {
       <div className="flex flex-wrap gap-3 w-12 xl:justify-content-between justify-content-center">
         <div className="flex w-8 justify-content-center sm:justify-content-start text-lg border-y-2 p-2">
           <p className="align-self-center mr-3">Receive: </p>
-          <p className="font-bold align-self-center">{amountToReceive}</p>
+          <p className="font-bold align-self-center">
+            {amountToReceive} {secondSelectedCurrency}
+          </p>
         </div>
         <Button
           icon="pi pi-arrow-right-arrow-left"
           className="border-solid border-0"
           label="Exchange"
+          onClick={() => {
+            exchangeCurrencyHandler();
+          }}
         />
       </div>
     </Card>
