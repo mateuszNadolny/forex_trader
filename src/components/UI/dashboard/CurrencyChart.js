@@ -1,21 +1,17 @@
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+// import { useGetHistoricalRateQuery } from '../../../redux/api/apiSlice';
 
 import { Dropdown } from 'primereact/dropdown';
 import { Card } from 'primereact/card';
 import { Chart } from 'primereact/chart';
-
-import { currencyActions } from '@/redux/slices/currency-rates-slice';
-
-import { allCurrencies } from '../../../../public/dummy-data';
 
 const CurrencyChart = () => {
   const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('PLN');
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('EUR');
   const [chartData, setChartData] = useState([]);
   const [chartOptions, setChartOptions] = useState([]);
-  const currencyRates = useSelector((state) => state.currencyRates);
-
+  const [currencyRates, setCurrencyRates] = useState([]);
   const dispatch = useDispatch();
 
   const firstDropdownOptions = [
@@ -30,13 +26,27 @@ const CurrencyChart = () => {
   );
 
   // generating last 7 days dates for chart labels
-  const today = new Date();
-  let weekDates = [];
-  for (let i = 7; i >= 0; i--) {
-    let date = new Date(today);
-    date.setDate(today.getDate() - i);
-    weekDates.push(date.toLocaleDateString());
+  function generateDates() {
+    const dates = [];
+    const today = new Date();
+
+    for (let i = 6; i >= 1; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      const dateString = date.toISOString().slice(0, 10);
+      dates.push(dateString);
+    }
+    return dates;
   }
+
+  const weekDates = generateDates();
+
+  // const {
+  //   data: currencyHistoricalData,
+  //   error,
+  //   isLoading,
+  //   isError
+  // } = useGetHistoricalRateQuery('EUR', 'PLN', weekDates[0], weekDates[5]);
 
   // applying chart data and labels and generating chart
   useEffect(() => {
@@ -89,14 +99,6 @@ const CurrencyChart = () => {
   }, [firstSelectedCurrency, secondSelectedCurrency, currencyRates]);
 
   //generating chart when the app starts or when any of the dropdown values change
-  useEffect(() => {
-    dispatch(
-      currencyActions.filterCurrencyRates({
-        obj: allCurrencies[`${firstSelectedCurrency}`],
-        currency: secondSelectedCurrency
-      })
-    );
-  }, [dispatch, firstSelectedCurrency, secondSelectedCurrency]);
 
   // preventing dropdowns from displaying the same value
   useEffect(() => {

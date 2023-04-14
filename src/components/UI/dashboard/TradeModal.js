@@ -11,8 +11,8 @@ import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 
 const TradeModal = () => {
-  const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('EUR');
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('PLN');
+  const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('EUR');
   const [amountToExchange, setAmountToExchange] = useState(0);
   const [amountToReceive, setAmountToReceive] = useState(0);
   const toast = useRef(null);
@@ -30,10 +30,12 @@ const TradeModal = () => {
     (currency) => currency.code !== firstSelectedCurrency
   );
 
-  const { data, error, isLoading, isError } = useGetLatestRateQuery(
-    firstSelectedCurrency,
-    secondSelectedCurrency
-  );
+  const { data, error, isLoading, isError } = useGetLatestRateQuery({
+    firstCurrency: firstSelectedCurrency,
+    secondCurrency: secondSelectedCurrency
+  });
+
+  console.log(data.data[secondSelectedCurrency]);
 
   const showToast = (obj) => {
     toast.current.show({ severity: obj.severity, summary: 'Error', detail: obj.message });
@@ -44,6 +46,13 @@ const TradeModal = () => {
       const toastParams = { severity: 'error', message: 'Sorry, insufficient funds!' };
       showToast(toastParams);
       return;
+    } else if (amountToExchange === 0) {
+      const toastParams = { severity: 'error', message: `You can't exchange 0 units!` };
+      showToast(toastParams);
+      return;
+    } else if (isError) {
+      const toastParams = { severity: 'error', message: error.message };
+      showToast(toastParams);
     }
     dispatch(
       setCurrencyValue({
@@ -66,6 +75,7 @@ const TradeModal = () => {
     if (data && !isLoading && !isError) {
       const rate = data.data[secondSelectedCurrency];
       const newAmountToReceive = (amountToExchange * rate).toFixed(2);
+      console.log(`Rate is equal to ${rate}`);
       setAmountToReceive(newAmountToReceive);
     }
   }, [amountToExchange, data, isLoading, isError, secondSelectedCurrency]);
@@ -79,7 +89,8 @@ const TradeModal = () => {
     content = (
       <p>
         As of today, 1 {firstSelectedCurrency} is equivalent to {''}
-        {data.data[secondSelectedCurrency].toFixed(2)} {secondSelectedCurrency}
+        {data.data[secondSelectedCurrency].toFixed(2)}
+        {secondSelectedCurrency}
       </p>
     );
   }
