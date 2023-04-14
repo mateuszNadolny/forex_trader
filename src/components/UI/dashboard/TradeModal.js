@@ -30,12 +30,12 @@ const TradeModal = () => {
     (currency) => currency.code !== firstSelectedCurrency
   );
 
-  const { data, error, isLoading, isError } = useGetLatestRateQuery({
-    firstCurrency: firstSelectedCurrency,
-    secondCurrency: secondSelectedCurrency
-  });
+  const { data, error, isLoading, isError } = useGetLatestRateQuery(
+    firstSelectedCurrency,
+    secondSelectedCurrency
+  );
 
-  console.log(data.data[secondSelectedCurrency]);
+  console.log(data);
 
   const showToast = (obj) => {
     toast.current.show({ severity: obj.severity, summary: 'Error', detail: obj.message });
@@ -89,8 +89,7 @@ const TradeModal = () => {
     content = (
       <p>
         As of today, 1 {firstSelectedCurrency} is equivalent to {''}
-        {data.data[secondSelectedCurrency].toFixed(2)}
-        {secondSelectedCurrency}
+        {data.data[secondSelectedCurrency].toFixed(2)} {secondSelectedCurrency}
       </p>
     );
   }

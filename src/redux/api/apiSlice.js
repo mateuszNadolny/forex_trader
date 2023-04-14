@@ -21,24 +21,18 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const latestRatesBaseUrl =
-  'https://api.freecurrencyapi.com/v1/latest?apikey=QVQWzkx8xuv7RC74ioyn2oIkGqRQuWcQWBONFbG9';
 const historicalRatesBaseUrl =
   'https://api.freecurrencyapi.com/v1/historical?apikey=QVQWzkx8xuv7RC74ioyn2oIkGqRQuWcQWBONFbG9';
 
 export const currencyApi = createApi({
-  // reducerPath: 'currencysApi',
+  reducerPath: 'currencysApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: latestRatesBaseUrl // Default to latest rates base URL
+    baseUrl: `https://api.freecurrencyapi.com/v1/latest?apikey=QVQWzkx8xuv7RC74ioyn2oIkGqRQuWcQWBONFbG9&`
   }),
   endpoints: (builder) => ({
     getLatestRate: builder.query({
-      query: (args) => {
-        const { firstCurrency, secondCurrency } = args;
-        return {
-          url: `${latestRatesBaseUrl}&currencies=${secondCurrency}&base_currency=${firstCurrency}`
-        };
-      }
+      query: (firstCurrency, secondCurrency) =>
+        `currencies=${secondCurrency}&base_currency=${firstCurrency}`
     }),
     getHistoricalRate: builder.query({
       query: (firstCurrency, secondCurrency, startDate, endDate) =>
