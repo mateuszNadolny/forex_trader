@@ -30,10 +30,10 @@ const TradeModal = () => {
     (currency) => currency.code !== firstSelectedCurrency
   );
 
-  const { data, error, isLoading, isError } = useGetLatestRateQuery(
-    firstSelectedCurrency,
-    secondSelectedCurrency
-  );
+  const { data, error, isLoading, isError } = useGetLatestRateQuery({
+    firstCurrency: firstSelectedCurrency,
+    secondCurrency: secondSelectedCurrency
+  });
 
   console.log(data);
 
@@ -72,7 +72,7 @@ const TradeModal = () => {
   };
 
   useEffect(() => {
-    if (data && !isLoading && !isError) {
+    if (data && !isLoading && !isError && secondSelectedCurrency) {
       const rate = data.data[secondSelectedCurrency];
       const newAmountToReceive = (amountToExchange * rate).toFixed(2);
       console.log(`Rate is equal to ${rate}`);
@@ -85,13 +85,14 @@ const TradeModal = () => {
     content = <ProgressSpinner />;
   } else if (isError) {
     content = <p>{error}</p>;
-  } else if (data) {
+  } else if (data.data[secondSelectedCurrency]) {
     content = (
       <p>
         As of today, 1 {firstSelectedCurrency} is equivalent to {''}
         {data.data[secondSelectedCurrency].toFixed(2)} {secondSelectedCurrency}
       </p>
     );
+  } else {
   }
 
   return (
