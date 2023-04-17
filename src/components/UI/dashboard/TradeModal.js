@@ -35,8 +35,6 @@ const TradeModal = () => {
     secondCurrency: secondSelectedCurrency
   });
 
-  console.log(data);
-
   const showToast = (obj) => {
     toast.current.show({ severity: obj.severity, summary: 'Error', detail: obj.message });
   };
@@ -75,7 +73,6 @@ const TradeModal = () => {
     if (data && !isLoading && !isError && secondSelectedCurrency) {
       const rate = data.data[secondSelectedCurrency];
       const newAmountToReceive = (amountToExchange * rate).toFixed(2);
-      console.log(`Rate is equal to ${rate}`);
       setAmountToReceive(newAmountToReceive);
     }
   }, [amountToExchange, data, isLoading, isError, secondSelectedCurrency]);

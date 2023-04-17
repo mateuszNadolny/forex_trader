@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-// import { useGetHistoricalRateQuery } from '../../../redux/api/apiSlice';
+import { useGetHistoricalRateQuery } from '../../../redux/api/apiSlice';
 
 import { Dropdown } from 'primereact/dropdown';
 import { Card } from 'primereact/card';
@@ -11,7 +11,6 @@ const CurrencyChart = () => {
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('EUR');
   const [chartData, setChartData] = useState([]);
   const [chartOptions, setChartOptions] = useState([]);
-  const [currencyRates, setCurrencyRates] = useState([]);
   const dispatch = useDispatch();
 
   const firstDropdownOptions = [
@@ -41,23 +40,34 @@ const CurrencyChart = () => {
 
   const weekDates = generateDates();
 
-  // const {
-  //   data: currencyHistoricalData,
-  //   error,
-  //   isLoading,
-  //   isError
-  // } = useGetHistoricalRateQuery('EUR', 'PLN', weekDates[0], weekDates[5]);
+  const {
+    data: currencyHistoricalData,
+    error,
+    isLoading,
+    isError
+  } = useGetHistoricalRateQuery({
+    firstCurrency: firstSelectedCurrency,
+    secondCurrency: secondSelectedCurrency,
+    startDate: weekDates[0],
+    endDate: weekDates[5]
+  });
 
   // applying chart data and labels and generating chart
   useEffect(() => {
     const gridColor = 'rgba(126, 126, 128, 0.3)';
     const labelColor = 'rgba(126, 126, 128)';
 
+    const filteredData = currencyHistoricalData
+      ? Object.values(currencyHistoricalData.data)
+          .map((item) => item[secondSelectedCurrency])
+          .flat()
+      : [];
+
     const data = {
       labels: weekDates,
       datasets: [
         {
-          data: currencyRates,
+          data: filteredData,
           fill: true,
           borderColor: 'rgba(242, 239, 82, 1)',
           tension: 0,
@@ -96,7 +106,7 @@ const CurrencyChart = () => {
 
     setChartData(data);
     setChartOptions(options);
-  }, [firstSelectedCurrency, secondSelectedCurrency, currencyRates]);
+  }, [firstSelectedCurrency, secondSelectedCurrency]);
 
   //generating chart when the app starts or when any of the dropdown values change
 
@@ -105,14 +115,8 @@ const CurrencyChart = () => {
     if (firstSelectedCurrency === secondSelectedCurrency) {
       setFirstSelectedCurrency('EUR');
       setSecondSelectedCurrency('PLN');
-      dispatch(
-        currencyActions.filterCurrencyRates({
-          obj: allCurrencies['EUR'],
-          currency: 'PLN'
-        })
-      );
     }
-  }, [dispatch, firstSelectedCurrency, secondSelectedCurrency]);
+  }, [firstSelectedCurrency, secondSelectedCurrency]);
 
   return (
     <Card className="mx-3 lg:mx-4 mb-3 lg:mb-0 px-1 border-round-xl font-light">
@@ -143,13 +147,6 @@ const CurrencyChart = () => {
           optionLabel="name"
           optionValue="code"
         />
-        {currencyRates.length > 1 && (
-          <p className="col-12 opacity-50 lg:mt-3 lg:mb-3">
-            {`As of today: 1 ${firstSelectedCurrency} = ${
-              currencyRates[currencyRates.length - 1]
-            } ${secondSelectedCurrency}`}
-          </p>
-        )}
       </div>
       <Chart type="line" data={chartData} options={chartOptions} className="p-0 m-0 md:m-1"></Chart>
     </Card>
