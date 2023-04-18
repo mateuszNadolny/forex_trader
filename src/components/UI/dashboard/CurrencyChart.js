@@ -106,7 +106,7 @@ const CurrencyChart = () => {
 
     setChartData(data);
     setChartOptions(options);
-  }, [firstSelectedCurrency, secondSelectedCurrency]);
+  }, [firstSelectedCurrency, secondSelectedCurrency, currencyHistoricalData]);
 
   //generating chart when the app starts or when any of the dropdown values change
 

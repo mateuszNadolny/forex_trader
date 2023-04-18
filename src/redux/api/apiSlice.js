@@ -17,10 +17,12 @@ export const currencyApi = createApi({
     }),
     getHistoricalRate: builder.query({
       query: ({ firstCurrency, secondCurrency, startDate, endDate }) => ({
-        url: `historical?currencies=${secondCurrency}&base_currency=${firstCurrency}&date_from=${startDate}T15%3A30%3A16.449Z&date_to=${endDate}T15%3A30%3A16.449Z`
+        url: `historical?currencies=${secondCurrency}&base_currency=${firstCurrency}&date_from=${startDate}T08%3A49%3A13.340Z&date_to=${endDate}T08%3A49%3A13.341Z`
       })
     })
   })
 });
 
 export const { useGetLatestRateQuery, useGetHistoricalRateQuery } = currencyApi;
+
+// https://api.freecurrencyapi.com/v1/historical?apikey=QVQWzkx8xuv7RC74ioyn2oIkGqRQuWcQWBONFbG9&currencies=PLN&base_currency=EUR&date_from=2023-04-07T08%3A49%3A13.340Z&date_to=2023-04-17T08%3A49%3A13.341Z
