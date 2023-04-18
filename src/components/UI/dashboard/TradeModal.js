@@ -77,11 +77,18 @@ const TradeModal = () => {
     }
   }, [amountToExchange, data, isLoading, isError, secondSelectedCurrency]);
 
+  useEffect(() => {
+    if (firstSelectedCurrency === secondSelectedCurrency) {
+      setFirstSelectedCurrency('EUR');
+      setSecondSelectedCurrency('PLN');
+    }
+  }, [firstSelectedCurrency, secondSelectedCurrency]);
+
   let content;
   if (isLoading) {
     content = <ProgressSpinner />;
   } else if (isError) {
-    content = <p>{error}</p>;
+    content = <p>{error.message}</p>;
   } else if (data.data[secondSelectedCurrency]) {
     content = (
       <p>

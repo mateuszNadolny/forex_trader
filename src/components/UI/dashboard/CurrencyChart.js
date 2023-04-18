@@ -5,6 +5,7 @@ import { useGetHistoricalRateQuery } from '../../../redux/api/apiSlice';
 import { Dropdown } from 'primereact/dropdown';
 import { Card } from 'primereact/card';
 import { Chart } from 'primereact/chart';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 const CurrencyChart = () => {
   const [secondSelectedCurrency, setSecondSelectedCurrency] = useState('PLN');
@@ -122,6 +123,7 @@ const CurrencyChart = () => {
     <Card className="mx-3 lg:mx-4 mb-3 lg:mb-0 px-1 border-round-xl font-light">
       <div className="w-full grid px-2 mb-3">
         <p className="col-12 text-xl md:text-2xl lg:text-4xl mb-2 lg:mb-4 p-0">{`Let's see things in more details`}</p>
+        <p className="col-12 text-xs md:text-sm lg:text-sm mb-3 lg:mb-5 p-0">{`Check historical currency rates from ${weekDates[0]} to ${weekDates[5]}`}</p>
         <Dropdown
           className="w-6rem"
           inputId="dd-first-currency"
@@ -148,7 +150,12 @@ const CurrencyChart = () => {
           optionValue="code"
         />
       </div>
-      <Chart type="line" data={chartData} options={chartOptions} className="p-0 m-0 md:m-1"></Chart>
+      {isLoading ? (
+        <ProgressSpinner />
+      ) : (
+        <Chart type="line" data={chartData} options={chartOptions} className="p-1 md:m-1"></Chart>
+      )}
+      {isError && <div>{error.message}</div>}
     </Card>
   );
 };
