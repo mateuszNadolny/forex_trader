@@ -5,7 +5,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 
 const HistoryTable = () => {
-  const transactionHistory = useSelector((state) => state.transactionHistory);
+  const transactionHistory = useSelector((state) => state.transactionsHistory);
   const [data, setData] = useState([]);
 
   useEffect(() => {

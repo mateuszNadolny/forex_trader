@@ -18,7 +18,7 @@ const TradeModal = () => {
   const [amountToReceive, setAmountToReceive] = useState(0);
   const toast = useRef(null);
   const myWallet = useSelector((state) => state.myWallet);
-  const transactionHistory = useSelector((state) => state.transactionsHistory);
+  const transactionsHistory = useSelector((state) => state.transactionsHistory);
   const dispatch = useDispatch();
 
   const firstDropdownOptions = [
@@ -87,7 +87,7 @@ const TradeModal = () => {
       message: 'Exchange submitted successfully!'
     };
     showToast(toastParams);
-    console.log(transactionHistory);
+    console.log(transactionsHistory);
   };
 
   useEffect(() => {
