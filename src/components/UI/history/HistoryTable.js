@@ -1,95 +1,26 @@
-// import { DataTable } from 'primereact/datatable';
-// import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
-// const HistoryTable = () => {
-//   return (
-//     <DataTable
-//       value={[]}
-//       paginator
-//       showGridlines
-//       rows={10}
-//       loading={loading}
-//       dataKey="id"
-//       filters={filters}
-//       globalFilterFields={['name', 'country.name', 'representative.name', 'balance', 'status']}
-//       header={header}
-//       emptyMessage="No customers found.">
-//       <Column
-//         field="name"
-//         header="Name"
-//         filter
-//         filterPlaceholder="Search by name"
-//         style={{ minWidth: '12rem' }}
-//       />
-//       <Column
-//         header="Country"
-//         filterField="country.name"
-//         style={{ minWidth: '12rem' }}
-//         body={countryBodyTemplate}
-//         filter
-//         filterPlaceholder="Search by country"
-//         filterClear={filterClearTemplate}
-//         filterApply={filterApplyTemplate}
-//         filterFooter={filterFooterTemplate}
-//       />
-//       <Column
-//         header="Agent"
-//         filterField="representative"
-//         showFilterMatchModes={false}
-//         filterMenuStyle={{ width: '14rem' }}
-//         style={{ minWidth: '14rem' }}
-//         body={representativeBodyTemplate}
-//         filter
-//         filterElement={representativeFilterTemplate}
-//       />
-//       <Column
-//         header="Date"
-//         filterField="date"
-//         dataType="date"
-//         style={{ minWidth: '10rem' }}
-//         body={dateBodyTemplate}
-//         filter
-//         filterElement={dateFilterTemplate}
-//       />
-//       <Column
-//         header="Balance"
-//         filterField="balance"
-//         dataType="numeric"
-//         style={{ minWidth: '10rem' }}
-//         body={balanceBodyTemplate}
-//         filter
-//         filterElement={balanceFilterTemplate}
-//       />
-//       <Column
-//         field="status"
-//         header="Status"
-//         filterMenuStyle={{ width: '14rem' }}
-//         style={{ minWidth: '12rem' }}
-//         body={statusBodyTemplate}
-//         filter
-//         filterElement={statusFilterTemplate}
-//       />
-//       <Column
-//         field="activity"
-//         header="Activity"
-//         showFilterMatchModes={false}
-//         style={{ minWidth: '12rem' }}
-//         body={activityBodyTemplate}
-//         filter
-//         filterElement={activityFilterTemplate}
-//       />
-//       <Column
-//         field="verified"
-//         header="Verified"
-//         dataType="boolean"
-//         bodyClassName="text-center"
-//         style={{ minWidth: '8rem' }}
-//         body={verifiedBodyTemplate}
-//         filter
-//         filterElement={verifiedFilterTemplate}
-//       />
-//     </DataTable>
-//   );
-// };
+const HistoryTable = () => {
+  return (
+    <DataTable emptyMessage="No transactions found." className="mx-5 mt-2">
+      <Column field="currencySold" header="Currency Sold" sortable style={{ width: '20%' }} />
+      <Column field="currencySoldAmount" header="Amount sold" sortable style={{ width: '20%' }} />
+      <Column
+        field="currencyReceived"
+        header="Currency Received"
+        sortable
+        style={{ width: '20%' }}
+      />
+      <Column
+        field="currencyReceivedAmount"
+        header="Amount received"
+        sortable
+        style={{ width: '20%' }}
+      />
+      <Column field="date" header="Date" sortable style={{ width: '20%' }} />
+    </DataTable>
+  );
+};
 
-// export default HistoryTable;
+export default HistoryTable;

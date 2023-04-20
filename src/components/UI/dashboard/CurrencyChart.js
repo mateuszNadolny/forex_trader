@@ -71,7 +71,7 @@ const CurrencyChart = () => {
           data: filteredData,
           fill: true,
           borderColor: 'rgba(242, 239, 82, 1)',
-          tension: 0,
+          tension: 0.3,
           backgroundColor: 'rgba(242, 239, 82, 0.3)'
         }
       ]
