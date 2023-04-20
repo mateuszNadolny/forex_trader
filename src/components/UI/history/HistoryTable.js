@@ -1,9 +1,15 @@
+import { useSelector } from 'react-redux';
+
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 
 const HistoryTable = () => {
+  const transactionHistory = useSelector((state) => state.transactionHistory);
   return (
-    <DataTable emptyMessage="No transactions found." className="mx-5 mt-2">
+    <DataTable
+      value={transactionHistory}
+      emptyMessage="No transactions found."
+      className="mx-5 mt-2">
       <Column field="currencySold" header="Currency Sold" sortable style={{ width: '20%' }} />
       <Column field="currencySoldAmount" header="Amount sold" sortable style={{ width: '20%' }} />
       <Column

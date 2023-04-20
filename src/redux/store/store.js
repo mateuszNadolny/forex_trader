@@ -3,14 +3,14 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 
 import { currencyApi } from '../api/apiSlice';
 
-import currencyRatesSlice from '../slices/currency-rates-slice';
 import myWalletSlice from '../slices/my-wallet-slice';
+import transactionsHistorySlice from '../slices/transactions-history-slice';
 
 export const store = configureStore({
   reducer: {
     [currencyApi.reducerPath]: currencyApi.reducer,
-    currencyRates: currencyRatesSlice.reducer,
-    myWallet: myWalletSlice.reducer
+    myWallet: myWalletSlice.reducer,
+    transactionsHistory: transactionsHistorySlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(currencyApi.middleware)
 });

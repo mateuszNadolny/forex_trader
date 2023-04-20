@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrencyValue } from '../../../redux/slices/my-wallet-slice';
+import { addTransaction } from '../../../redux/slices/transactions-history-slice';
 import { useGetLatestRateQuery } from '../../../redux/api/apiSlice';
 
 import { Card } from 'primereact/card';
@@ -17,6 +18,7 @@ const TradeModal = () => {
   const [amountToReceive, setAmountToReceive] = useState(0);
   const toast = useRef(null);
   const myWallet = useSelector((state) => state.myWallet);
+  const transactionHistory = useSelector((state) => state.transactionHistory);
   const dispatch = useDispatch();
 
   const firstDropdownOptions = [
@@ -36,20 +38,28 @@ const TradeModal = () => {
   });
 
   const showToast = (obj) => {
-    toast.current.show({ severity: obj.severity, summary: 'Error', detail: obj.message });
+    toast.current.show({ severity: obj.severity, summary: obj.summary, detail: obj.message });
   };
 
   const exchangeCurrencyHandler = () => {
     if (myWallet[firstSelectedCurrency] < amountToExchange) {
-      const toastParams = { severity: 'error', message: 'Sorry, insufficient funds!' };
+      const toastParams = {
+        severity: 'error',
+        summary: 'Error',
+        message: 'Sorry, insufficient funds!'
+      };
       showToast(toastParams);
       return;
     } else if (amountToExchange === 0) {
-      const toastParams = { severity: 'error', message: `You can't exchange 0 units!` };
+      const toastParams = {
+        severity: 'error',
+        summary: 'Error',
+        message: `You can't exchange 0 units!`
+      };
       showToast(toastParams);
       return;
     } else if (isError) {
-      const toastParams = { severity: 'error', message: error.message };
+      const toastParams = { severity: 'error', summary: 'Error', message: error.message };
       showToast(toastParams);
     }
     dispatch(
@@ -60,13 +70,24 @@ const TradeModal = () => {
         valueToBuy: +amountToReceive
       })
     );
+    dispatch(
+      addTransaction({
+        currencySold: firstSelectedCurrency,
+        currencySoldAmount: +amountToExchange,
+        currencyReceived: secondSelectedCurrency,
+        currencyReceivedAmount: +amountToReceive,
+        date: new Date().toJSON().slice(0, 10)
+      })
+    );
     setAmountToExchange(0);
     setAmountToReceive(0);
     const toastParams = {
       severity: 'success',
+      summary: 'Success',
       message: 'Exchange submitted successfully!'
     };
     showToast(toastParams);
+    console.log(transactionHistory);
   };
 
   useEffect(() => {

@@ -2,36 +2,22 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = [];
 
-export const transactionHistorySlice = createSlice({
-  name: 'transactionHistory',
+export const transactionsHistorySlice = createSlice({
+  name: 'transactionsHistory',
   initialState,
   reducers: {
     addTransaction: (state, action) => {
-      state.push(action.payload);
+      state.push({
+        currencySold: action.payload.currencySold,
+        currencySoldAmount: action.payload.currencySoldAmount,
+        currencyReceived: action.payload.currencyReceived,
+        currencyReceivedAmount: action.payload.currencyReceivedAmount,
+        date: action.payload.date
+      });
     }
   }
 });
 
-export const { addTransaction } = transactionHistorySlice.actions;
+export const { addTransaction } = transactionsHistorySlice.actions;
 
-export default transactionHistorySlice.reducer;
-
-// future component code
-// import { useSelector } from 'react-redux';
-
-// function TransactionHistory() {
-//     const transactions = useSelector((state) => state.transactionHistory);
-
-//     return (
-//       <div>
-//         <h2>Transaction History</h2>
-//         <ul>
-//           {transactions.map((transaction) => (
-//             <li key={transaction.id}>
-//               {/* render transaction details */}
-//             </li>
-//           ))}
-//         </ul>
-//       </div>
-//     );
-//   }
+export default transactionsHistorySlice;
