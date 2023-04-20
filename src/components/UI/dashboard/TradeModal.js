@@ -87,7 +87,6 @@ const TradeModal = () => {
       message: 'Exchange submitted successfully!'
     };
     showToast(toastParams);
-    console.log(transactionsHistory);
   };
 
   useEffect(() => {

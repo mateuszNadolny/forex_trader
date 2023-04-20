@@ -5,12 +5,12 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 
 const HistoryTable = () => {
-  const transactionHistory = useSelector((state) => state.transactionsHistory);
+  const transactionsHistory = useSelector((state) => state.transactionsHistory);
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    setData(transactionHistory);
-  }, [transactionHistory]);
+    setData(transactionsHistory);
+  }, [transactionsHistory]);
 
   return (
     <DataTable value={data} emptyMessage="No transactions found." className="mx-5 mt-2">
