@@ -7,13 +7,16 @@ export const transactionsHistorySlice = createSlice({
   initialState,
   reducers: {
     addTransaction: (state, action) => {
-      state.push({
-        currencySold: action.payload.currencySold,
-        currencySoldAmount: action.payload.currencySoldAmount,
-        currencyReceived: action.payload.currencyReceived,
-        currencyReceivedAmount: action.payload.currencyReceivedAmount,
-        date: action.payload.date
-      });
+      return [
+        ...state,
+        {
+          currencySold: action.payload.currencySold,
+          currencySoldAmount: action.payload.currencySoldAmount,
+          currencyReceived: action.payload.currencyReceived,
+          currencyReceivedAmount: action.payload.currencyReceivedAmount,
+          date: action.payload.date
+        }
+      ];
     }
   }
 });
