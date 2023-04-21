@@ -76,6 +76,7 @@ const TradeModal = () => {
         currencySoldAmount: +amountToExchange,
         currencyReceived: secondSelectedCurrency,
         currencyReceivedAmount: +amountToReceive,
+        exchangeRate: data.data[secondSelectedCurrency].toFixed(2),
         date: new Date().toJSON().slice(0, 10)
       })
     );

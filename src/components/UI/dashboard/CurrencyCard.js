@@ -1,6 +1,5 @@
 import { Card } from 'primereact/card';
 import Image from 'next/image';
-import EURpic from '../../../../public/EUR.png';
 
 const CurrencyCard = (props) => {
   return (
