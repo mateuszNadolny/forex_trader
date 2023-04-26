@@ -17,7 +17,7 @@ export const currencyApi = createApi({
     }),
     getHistoricalRate: builder.query({
       query: ({ firstCurrency, secondCurrency, startDate, endDate }) => ({
-        url: `historical?currencies=${secondCurrency}&base_currency=${firstCurrency}&date_from=${startDate}T08%3A49%3A13.340Z&date_to=${endDate}T08%3A49%3A13.341Z`
+        url: `historical?currencies=${secondCurrency}&base_currency=${firstCurrency}&date_from=${startDate}T00%3A00%3A00.000Z&date_to=${endDate}T00%3A00%3A00.000Z`
       })
     })
   })
