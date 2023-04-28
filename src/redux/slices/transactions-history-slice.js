@@ -8,6 +8,14 @@ const initialState = [
     currencyReceivedAmount: '1.54',
     exchangeRate: '0.24',
     date: '2023-04-12'
+  },
+  {
+    currencySold: 'GBP',
+    currencySoldAmount: '15',
+    currencyReceived: 'EUR',
+    currencyReceivedAmount: '32.56',
+    exchangeRate: '0.32',
+    date: '2023-04-14'
   }
 ];
 

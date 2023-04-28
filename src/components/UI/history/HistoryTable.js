@@ -1,17 +1,10 @@
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 
-import { Image } from 'next/image';
-
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { FilterMatchMode } from 'primereact/api';
 import { MultiSelect } from 'primereact/multiselect';
-
-import EURpic from '../../../../public/EUR.png';
-import USDpic from '../../../../public/USD.png';
-import PLNpic from '../../../../public/PLN.png';
-import GBPpic from '../../../../public/GBP.png';
 
 const HistoryTable = () => {
   const transactionsHistory = useSelector((state) => state.transactionsHistory);
@@ -24,15 +17,30 @@ const HistoryTable = () => {
     setData(transactionsHistory);
   }, [transactionsHistory]);
 
-  const currencyReceivedBodyTemplate = () => {
-    const currency = transactionsHistory[transactionsHistory.length - 1].currencySold;
+  const currencySoldBodyTemplate = (rowData) => {
+    const currency = rowData.currencySold;
 
     return (
       <div className="flex align-items-center gap-2">
         <img
           alt={currency}
           src={`https://github.com/mateuszNadolny/forex_trader/blob/main/public/${currency}.png?raw=true`}
-          width="32"
+          width={32}
+        />
+        <span>{currency}</span>
+      </div>
+    );
+  };
+
+  const currencyReceivedBodyTemplate = (rowData) => {
+    const currency = rowData.currencyReceived;
+
+    return (
+      <div className="flex align-items-center gap-2">
+        <img
+          alt={currency}
+          src={`https://github.com/mateuszNadolny/forex_trader/blob/main/public/${currency}.png?raw=true`}
+          width={32}
         />
         <span>{currency}</span>
       </div>
@@ -54,14 +62,19 @@ const HistoryTable = () => {
       <Column
         field="currencySold"
         header="Currency Sold"
-        body={currencyReceivedBodyTemplate}
+        body={currencySoldBodyTemplate}
         filter
         filterPlaceholder="Search by currency"
         filterField="currencySold"
         style={{ width: '15%' }}
       />
       <Column field="currencySoldAmount" header="Amount sold" sortable style={{ width: '15%' }} />
-      <Column field="currencyReceived" header="Currency Received" style={{ width: '15%' }} />
+      <Column
+        field="currencyReceived"
+        header="Currency Received"
+        body={currencyReceivedBodyTemplate}
+        style={{ width: '15%' }}
+      />
       <Column
         field="currencyReceivedAmount"
         header="Amount received"
