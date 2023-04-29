@@ -9,7 +9,8 @@ import { MultiSelect } from 'primereact/multiselect';
 const HistoryTable = () => {
   const transactionsHistory = useSelector((state) => state.transactionsHistory);
   const [filters, setFilters] = useState({
-    currencySold: { value: null, matchMode: FilterMatchMode.IN }
+    currencySold: { value: null, matchMode: FilterMatchMode.IN },
+    currencyReceived: { value: null, matchMode: FilterMatchMode.IN }
   });
   const [data, setData] = useState([]);
   const [currencies] = useState(['EUR', 'PLN', 'USD', 'GBP']);
@@ -18,22 +19,8 @@ const HistoryTable = () => {
     setData(transactionsHistory);
   }, [transactionsHistory]);
 
-  const currencySoldBodyTemplate = (rowData) => {
-    const currency = rowData.currencySold;
-    return (
-      <div className="flex align-items-center gap-2">
-        <img
-          alt={currency}
-          src={`https://github.com/mateuszNadolny/forex_trader/blob/main/public/${currency}.png?raw=true`}
-          width={32}
-        />
-        <span>{currency}</span>
-      </div>
-    );
-  };
-
-  const currencyReceivedBodyTemplate = (rowData) => {
-    const currency = rowData.currencyReceived;
+  const currencyBodyTemplate = (rowData, field) => {
+    const currency = rowData[field];
 
     return (
       <div className="flex align-items-center gap-2">
@@ -55,7 +42,7 @@ const HistoryTable = () => {
     );
   };
 
-  const currencyRowFilterTemplate = (options) => {
+  const currencyFilterTemplate = (options, field) => {
     return (
       <MultiSelect
         options={currencies}
@@ -65,7 +52,7 @@ const HistoryTable = () => {
           options.filterApplyCallback(e.value);
           setFilters({
             ...filters,
-            currencySold: { value: e.value, matchMode: FilterMatchMode.IN }
+            [field]: { value: e.value, matchMode: FilterMatchMode.IN }
           });
         }}
         placeholder="Any"
@@ -97,22 +84,21 @@ const HistoryTable = () => {
         showFilterMenu={false}
         filterMenuStyle={{ width: '14rem' }}
         style={{ width: '15%' }}
-        body={currencySoldBodyTemplate}
+        body={(rowData) => currencyBodyTemplate(rowData, 'currencySold')}
         filter
-        filterElement={currencyRowFilterTemplate}
+        filterElement={(options) => currencyFilterTemplate(options, 'currencySold')}
       />
       <Column field="currencySoldAmount" header="Amount sold" sortable style={{ width: '15%' }} />
       <Column
         field="currencyReceived"
         header="Currency Received"
-        body={currencyReceivedBodyTemplate}
+        filterField="currencyReceived"
+        showFilterMenu={false}
+        filterMenuStyle={{ width: '14rem' }}
         style={{ width: '15%' }}
-      />
-      <Column
-        field="currencyReceivedAmount"
-        header="Amount received"
-        sortable
-        style={{ width: '15%' }}
+        body={(rowData) => currencyBodyTemplate(rowData, 'currencyReceived')}
+        filter
+        filterElement={(options) => currencyFilterTemplate(options, 'currencyReceived')}
       />
       <Column field="exchangeRate" header="Exchange rate" sortable style={{ width: '15%' }} />
       <Column field="date" header="Date" sortable style={{ width: '15%' }} />
