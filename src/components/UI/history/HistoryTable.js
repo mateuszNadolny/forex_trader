@@ -100,6 +100,12 @@ const HistoryTable = () => {
         filter
         filterElement={(options) => currencyFilterTemplate(options, 'currencyReceived')}
       />
+      <Column
+        field="currencyReceivedAmount"
+        header="Amount received"
+        sortable
+        style={{ width: '15%' }}
+      />
       <Column field="exchangeRate" header="Exchange rate" sortable style={{ width: '15%' }} />
       <Column field="date" header="Date" sortable style={{ width: '15%' }} />
     </DataTable>
