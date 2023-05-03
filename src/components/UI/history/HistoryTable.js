@@ -119,7 +119,7 @@ const HistoryTable = () => {
         field="currencySold"
         header="Currency Sold"
         filterField="currencySold"
-        showFilterMenu={true}
+        showFilterMatchModes={false}
         filterMenuStyle={{ width: '14rem' }}
         style={{ width: '15%' }}
         body={(rowData) => currencyBodyTemplate(rowData, 'currencySold')}
@@ -131,7 +131,7 @@ const HistoryTable = () => {
         field="currencyReceived"
         header="Currency Received"
         filterField="currencyReceived"
-        showFilterMenu={false}
+        showFilterMatchModes={false}
         filterMenuStyle={{ width: '14rem' }}
         style={{ width: '15%' }}
         body={(rowData) => currencyBodyTemplate(rowData, 'currencyReceived')}
