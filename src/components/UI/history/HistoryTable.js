@@ -7,6 +7,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { MultiSelect } from 'primereact/multiselect';
 import { Calendar } from 'primereact/calendar';
+import { InputNumber } from 'primereact/inputnumber';
 
 const HistoryTable = () => {
   const transactionsHistory = useSelector((state) => state.transactionsHistory);
@@ -16,6 +17,18 @@ const HistoryTable = () => {
     date: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }]
+    },
+    currencySoldAmount: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.EQUAL }]
+    },
+    currencyReceivedAmount: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.EQUAL }]
+    },
+    exchangeRate: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.EQUAL }]
     }
   });
   const [data, setData] = useState([]);
@@ -75,6 +88,35 @@ const HistoryTable = () => {
     );
   };
 
+  // setting body template and filter for columns with numeric values
+
+  const numericBodyTemplate = (rowData, field) => {
+    const amount = +rowData[field];
+    return (
+      <div className="flex align-items-center gap-2">
+        <span>{amount}</span>
+      </div>
+    );
+  };
+
+  const numericFilterTemplate = (options, field) => {
+    return (
+      <InputNumber
+        value={options.value}
+        onChange={(e) => {
+          options.filterApplyCallback(e.value);
+          setFilters({
+            ...filters,
+            [field]: {
+              operator: FilterOperator.AND,
+              constraints: [{ value: e.value, matchMode: FilterMatchMode.EQUAL }]
+            }
+          });
+        }}
+      />
+    );
+  };
+
   // setting body templates and filters for column with date
 
   const formatDate = (value) => {
@@ -110,7 +152,7 @@ const HistoryTable = () => {
       stripedRows
       paginator
       filters={filters}
-      filterDisplay="menu"
+      // filterDisplay="menu"
       rows={5}
       rowsPerPageOptions={[5, 10, 25, 50]}
       tableStyle={{ minWidth: '50rem' }}
@@ -126,7 +168,25 @@ const HistoryTable = () => {
         filter
         filterElement={(options) => currencyFilterTemplate(options, 'currencySold')}
       />
-      <Column field="currencySoldAmount" header="Amount sold" sortable style={{ width: '15%' }} />
+      <Column
+        field="currencySoldAmount"
+        header="Amount sold"
+        sortable
+        body={(rowData) => numericBodyTemplate(rowData, 'currencySoldAmount')}
+        filterField="currencySoldAmount"
+        dataType="numeric"
+        filter
+        filterElement={(options) => numericFilterTemplate(options, 'currencySoldAmount')}
+        filterMatchMode="custom"
+        filterFunction={(value, filter) => {
+          if (filter === null || filter === undefined) {
+            return true;
+          } else {
+            return value === filter;
+          }
+        }}
+        style={{ width: '15%' }}
+      />
       <Column
         field="currencyReceived"
         header="Currency Received"
@@ -142,9 +202,40 @@ const HistoryTable = () => {
         field="currencyReceivedAmount"
         header="Amount received"
         sortable
+        body={(rowData) => numericBodyTemplate(rowData, 'currencyReceivedAmount')}
+        filterField="currencyReceivedAmount"
+        dataType="numeric"
+        filter
+        filterElement={(options) => numericFilterTemplate(options, 'currencyReceivedAmount')}
+        filterMatchMode="custom"
+        filterFunction={(value, filter) => {
+          if (filter === null || filter === undefined) {
+            return true;
+          } else {
+            return value === filter;
+          }
+        }}
         style={{ width: '15%' }}
       />
-      <Column field="exchangeRate" header="Exchange rate" sortable style={{ width: '15%' }} />
+      <Column
+        field="exchangeRate"
+        header="Exchange rate"
+        sortable
+        body={(rowData) => numericBodyTemplate(rowData, 'exchangeRate')}
+        filterField="exchangeRate"
+        dataType="numeric"
+        filter
+        filterElement={(options) => numericFilterTemplate(options, 'exchangeRate')}
+        filterMatchMode="custom"
+        filterFunction={(value, filter) => {
+          if (filter === null || filter === undefined) {
+            return true;
+          } else {
+            return value === filter;
+          }
+        }}
+        style={{ width: '15%' }}
+      />
       <Column
         field="date"
         header="Date"
