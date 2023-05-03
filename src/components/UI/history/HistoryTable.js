@@ -1,23 +1,35 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
+
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { FilterMatchMode } from 'primereact/api';
 import { MultiSelect } from 'primereact/multiselect';
+import { Calendar } from 'primereact/calendar';
 
 const HistoryTable = () => {
   const transactionsHistory = useSelector((state) => state.transactionsHistory);
   const [filters, setFilters] = useState({
     currencySold: { value: null, matchMode: FilterMatchMode.IN },
-    currencyReceived: { value: null, matchMode: FilterMatchMode.IN }
+    currencyReceived: { value: null, matchMode: FilterMatchMode.IN },
+    date: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }]
+    }
   });
   const [data, setData] = useState([]);
   const [currencies] = useState(['EUR', 'PLN', 'USD', 'GBP']);
 
   useEffect(() => {
-    setData(transactionsHistory);
+    const updatedTransactionsHistory = transactionsHistory.map((transaction) => {
+      return { ...transaction, date: new Date(transaction.date) };
+    });
+
+    setData(updatedTransactionsHistory);
   }, [transactionsHistory]);
+
+  // setting body templates and filters for columns with currencies
 
   const currencyBodyTemplate = (rowData, field) => {
     const currency = rowData[field];
@@ -63,6 +75,32 @@ const HistoryTable = () => {
     );
   };
 
+  // setting body templates and filters for column with date
+
+  const formatDate = (value) => {
+    return value.toLocaleDateString('en-US', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
+
+  const dateBodyTemplate = (rowData) => {
+    return formatDate(rowData.date);
+  };
+
+  const dateFilterTemplate = (options) => {
+    return (
+      <Calendar
+        value={options.value}
+        onChange={(e) => options.filterCallback(e.value, options.index)}
+        dateFormat="dd/mm/yy"
+        placeholder="dd/mm/yyyy"
+        mask="99/99/9999"
+      />
+    );
+  };
+
   return (
     <DataTable
       value={data}
@@ -72,7 +110,7 @@ const HistoryTable = () => {
       stripedRows
       paginator
       filters={filters}
-      filterDisplay="row"
+      filterDisplay="menu"
       rows={5}
       rowsPerPageOptions={[5, 10, 25, 50]}
       tableStyle={{ minWidth: '50rem' }}
@@ -81,7 +119,7 @@ const HistoryTable = () => {
         field="currencySold"
         header="Currency Sold"
         filterField="currencySold"
-        showFilterMenu={false}
+        showFilterMenu={true}
         filterMenuStyle={{ width: '14rem' }}
         style={{ width: '15%' }}
         body={(rowData) => currencyBodyTemplate(rowData, 'currencySold')}
@@ -107,7 +145,17 @@ const HistoryTable = () => {
         style={{ width: '15%' }}
       />
       <Column field="exchangeRate" header="Exchange rate" sortable style={{ width: '15%' }} />
-      <Column field="date" header="Date" sortable style={{ width: '15%' }} />
+      <Column
+        field="date"
+        header="Date"
+        sortable
+        filterField="date"
+        dataType="date"
+        body={dateBodyTemplate}
+        filter
+        filterElement={dateFilterTemplate}
+        style={{ width: '15%' }}
+      />
     </DataTable>
   );
 };
