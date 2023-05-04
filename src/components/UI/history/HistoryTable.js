@@ -20,15 +20,15 @@ const HistoryTable = () => {
     },
     currencySoldAmount: {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.EQUAL }]
+      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }]
     },
     currencyReceivedAmount: {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.EQUAL }]
+      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }]
     },
     exchangeRate: {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.EQUAL }]
+      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }]
     }
   });
   const [data, setData] = useState([]);
@@ -102,14 +102,15 @@ const HistoryTable = () => {
   const numericFilterTemplate = (options, field) => {
     return (
       <InputNumber
+        minFractionDigits={2}
         value={options.value}
         onChange={(e) => {
-          options.filterApplyCallback(e.value);
+          options.filterApplyCallback(e.value); // Convert number to string here
           setFilters({
             ...filters,
             [field]: {
               operator: FilterOperator.AND,
-              constraints: [{ value: e.value, matchMode: FilterMatchMode.EQUAL }]
+              constraints: [{ value: e.value, matchMode: FilterMatchMode.EQUALS }]
             }
           });
         }}
