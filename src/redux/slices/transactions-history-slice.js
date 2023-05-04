@@ -1,38 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = [
-  {
-    currencySold: 'PLN',
-    currencySoldAmount: '12',
-    currencyReceived: 'USD',
-    currencyReceivedAmount: '1.54',
-    exchangeRate: '0.24',
-    date: '2023-04-12'
-  },
-  {
-    currencySold: 'GBP',
-    currencySoldAmount: '15',
-    currencyReceived: 'EUR',
-    currencyReceivedAmount: '32.56',
-    exchangeRate: '0.32',
-    date: '2023-04-14'
-  }
-];
+const initialState = [];
 
 export const transactionsHistorySlice = createSlice({
   name: 'transactionsHistory',
   initialState,
   reducers: {
-    addTransaction: (state, action) => {
+    addTransaction: (state, { payload }) => {
       return [
         ...state,
         {
-          currencySold: action.payload.currencySold,
-          currencySoldAmount: action.payload.currencySoldAmount,
-          currencyReceived: action.payload.currencyReceived,
-          currencyReceivedAmount: action.payload.currencyReceivedAmount,
-          exchangeRate: action.payload.exchangeRate,
-          date: action.payload.date
+          currencySold: payload.currencySold,
+          currencySoldAmount: payload.currencySoldAmount,
+          currencyReceived: payload.currencyReceived,
+          currencyReceivedAmount: payload.currencyReceivedAmount,
+          exchangeRate: payload.exchangeRate,
+          date: payload.date
         }
       ];
     }
