@@ -18,28 +18,28 @@ const MyCurrenciesModal = () => {
       </div>
       <div className="flex gap-3 overflow-x-auto ">
         <CurrencyCard
-          img={PLNpic}
+          img={'PLN'}
           alt={'image of PLN zloty'}
           title={'Polish Złoty'}
           value={myWallet.PLN}
           sign={'ZŁ'}
         />
         <CurrencyCard
-          img={EURpic}
+          img={'EUR'}
           alt={'image of EURO'}
           title={'Euro'}
           value={myWallet.EUR}
           sign={'€'}
         />
         <CurrencyCard
-          img={USDpic}
+          img={'USD'}
           alt={'image of US Dollar'}
           title={'American Dollar'}
           value={myWallet.USD}
           sign={'$'}
         />
         <CurrencyCard
-          img={GBPpic}
+          img={'GBP'}
           alt={'image of GB Pound'}
           title={'British Pound'}
           value={myWallet.GBP}
