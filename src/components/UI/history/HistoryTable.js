@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import Image from 'next/image';
+
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
 import { DataTable } from 'primereact/datatable';

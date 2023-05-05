@@ -18,7 +18,6 @@ const TradeModal = () => {
   const [amountToReceive, setAmountToReceive] = useState(0);
   const toast = useRef(null);
   const myWallet = useSelector((state) => state.myWallet);
-  const transactionsHistory = useSelector((state) => state.transactionsHistory);
   const dispatch = useDispatch();
 
   const firstDropdownOptions = [
@@ -108,16 +107,15 @@ const TradeModal = () => {
   let content;
   if (isLoading) {
     content = <ProgressSpinner />;
-  } else if (isError) {
-    content = <p>{error.message}</p>;
-  } else if (data.data[secondSelectedCurrency]) {
+  } else if (isError || !data) {
+    content = <p>{(error && error.message) || 'Error'}</p>;
+  } else {
     content = (
       <p>
-        As of today, 1 {firstSelectedCurrency} is equivalent to {''}
+        As of today, 1 {firstSelectedCurrency} is equivalent to{' '}
         {data.data[secondSelectedCurrency].toFixed(2)} {secondSelectedCurrency}
       </p>
     );
-  } else {
   }
 
   return (
