@@ -12,7 +12,6 @@ const CurrencyChart = () => {
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState('EUR');
   const [chartData, setChartData] = useState([]);
   const [chartOptions, setChartOptions] = useState([]);
-  const dispatch = useDispatch();
 
   const firstDropdownOptions = [
     { name: 'EUR', code: 'EUR' },
