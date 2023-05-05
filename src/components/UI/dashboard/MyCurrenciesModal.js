@@ -3,11 +3,6 @@ import { useSelector } from 'react-redux';
 import { Card } from 'primereact/card';
 import CurrencyCard from './CurrencyCard';
 
-import EURpic from '../../../../public/EUR.png';
-import USDpic from '../../../../public/USD.png';
-import PLNpic from '../../../../public/PLN.png';
-import GBPpic from '../../../../public/GBP.png';
-
 const MyCurrenciesModal = () => {
   const myWallet = useSelector((state) => state.myWallet);
 
