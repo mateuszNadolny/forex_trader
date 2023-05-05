@@ -1,5 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
 import { useGetHistoricalRateQuery } from '../../../redux/api/apiSlice';
 
 import { Dropdown } from 'primereact/dropdown';
