@@ -49,12 +49,19 @@ const HistoryTable = () => {
   const currencyBodyTemplate = (rowData, field) => {
     const currency = rowData[field];
 
+    const githubLoader = ({ src, width, quality }) => {
+      return `${src}?w=${width}&q=${quality || 75}`;
+    };
+
     return (
       <div className="flex align-items-center gap-2">
-        <img
+        <Image
           alt={currency}
           src={`https://github.com/mateuszNadolny/forex_trader/blob/main/public/${currency}.png?raw=true`}
-          width={32}
+          width={30}
+          height={30}
+          loader={githubLoader}
+          unoptimized
         />
         <span>{currency}</span>
       </div>
