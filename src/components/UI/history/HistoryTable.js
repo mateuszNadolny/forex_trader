@@ -104,7 +104,7 @@ const HistoryTable = () => {
   const numericFilterTemplate = (options, field) => {
     return (
       <InputNumber
-        minFractionDigits={2}
+        maxFractionDigits={2}
         value={options.value}
         onChange={(e) => {
           options.filterApplyCallback(e.value); // Convert number to string here

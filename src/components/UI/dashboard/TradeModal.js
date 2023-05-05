@@ -108,11 +108,11 @@ const TradeModal = () => {
   if (isLoading) {
     content = <ProgressSpinner />;
   } else if (isError || !data) {
-    content = <p>{(error && error.message) || 'Error'}</p>;
-  } else {
+    content = <p>{error.message}</p>;
+  } else if (data.data[secondSelectedCurrency]) {
     content = (
       <p>
-        As of today, 1 {firstSelectedCurrency} is equivalent to{' '}
+        As of today, 1 {firstSelectedCurrency} is equivalent to {''}
         {data.data[secondSelectedCurrency].toFixed(2)} {secondSelectedCurrency}
       </p>
     );
