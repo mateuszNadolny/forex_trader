@@ -1,4 +1,4 @@
-import HistoryTable from '@/components/UI/history/HistoryTable';
+import HistoryTable from '../components/UI/history/HistoryTable';
 
 const HistoryPage = () => {
   return (
