@@ -12,7 +12,7 @@ export const store = configureStore({
     [currencyApi.reducerPath]: currencyApi.reducer,
     myWallet: myWalletSlice.reducer,
     transactionsHistory: transactionsHistorySlice.reducer,
-    userSlice: userSlice.reducer
+    user: userSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(currencyApi.middleware)
 });
