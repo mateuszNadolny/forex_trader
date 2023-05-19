@@ -1,9 +1,13 @@
 import MainHeader from './MainHeader';
 
+import { useSelector } from 'react-redux';
+
 const Layout = (props) => {
+  const user = useSelector((state) => state.user);
+
   return (
     <>
-      <MainHeader />
+      {user.isLoggedIn ? <MainHeader /> : <div></div>}
       <main>{props.children}</main>
     </>
   );
