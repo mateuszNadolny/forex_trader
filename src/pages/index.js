@@ -7,12 +7,7 @@ import { useSelector } from 'react-redux';
 const HomePage = () => {
   const user = useSelector((state) => state.user);
 
-  return (
-    <>
-      <LoginSection />
-      {/* <CurrencyDashboard /> */}
-    </>
-  );
+  return <>{user.isLoggedIn ? <CurrencyDashboard /> : <LoginSection />}</>;
 };
 
 export default HomePage;
