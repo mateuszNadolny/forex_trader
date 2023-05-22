@@ -20,7 +20,7 @@ const LoginMessage = () => {
           <AccordionTab header="How does it work">
             <p className="m-0 ">
               Upon logging in via your Google account (or test account), you will be credited with
-              10,000 PLN in virtual currency for your trading endeavors. With this, you can begin
+              10 000 PLN in virtual currency for your trading endeavors. With this, you can begin
               your trading journey, buying and selling the four currencies available on our
               platform: Euro (EUR), Polish Złoty (PLN), US Dollar (USD), and British Pound (GBP).{' '}
               <br />
@@ -31,7 +31,7 @@ const LoginMessage = () => {
               strategies.
             </p>
           </AccordionTab>
-          <AccordionTab header="How you can benefit from this app">
+          <AccordionTab header="How you can benefit from using this app">
             <p className="m-0">
               Our platform mirrors the dynamic nature of the real-world forex market by fetching
               actual, real-time exchange rates via a reliable currency API. You can make trades
