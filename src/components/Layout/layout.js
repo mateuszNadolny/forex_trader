@@ -7,7 +7,7 @@ const Layout = (props) => {
 
   return (
     <>
-      {user.isLoggedIn ? <MainHeader /> : <div></div>}
+      {user.isLoggedIn ? <MainHeader /> : <></>}
       <main>{props.children}</main>
     </>
   );

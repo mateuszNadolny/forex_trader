@@ -2,7 +2,7 @@ import { Accordion, AccordionTab } from 'primereact/accordion';
 
 const LoginMessage = () => {
   return (
-    <div>
+    <div className="mb-4">
       <h1 className="mt-4 mb-5 px-2 text-center">
         Welcome to the <span className="text-yellow-400">Forex Trader</span> app!
       </h1>

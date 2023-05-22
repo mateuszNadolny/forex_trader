@@ -1,6 +1,6 @@
 import CurrencyDashboard from '../components/UI/dashboard/CurrencyDashboard';
 
-import LoginMessage from '@/components/UI/login/LoginMessage';
+import LoginSection from '@/components/UI/login/LoginSection';
 
 import { useSelector } from 'react-redux';
 
@@ -9,7 +9,7 @@ const HomePage = () => {
 
   return (
     <>
-      <LoginMessage />
+      <LoginSection />
       {/* <CurrencyDashboard /> */}
     </>
   );
