@@ -2,12 +2,9 @@ import { Accordion, AccordionTab } from 'primereact/accordion';
 
 const LoginMessage = () => {
   return (
-    <div className="mb-4">
-      <h1 className="mt-4 mb-5 px-2 text-center">
-        Welcome to the <span className="text-yellow-400">Forex Trader</span> app!
-      </h1>
-      <div className="w-full flex justify-content-around">
-        <Accordion activeIndex={0} className="w-10 xl:w-9">
+    <div className="w-12">
+      <div>
+        <Accordion>
           <AccordionTab header="About the app">
             <p className="m-0">
               Welcome to our Forex Trading Simulator – a web application designed to provide a
