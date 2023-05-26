@@ -13,7 +13,7 @@ const LoginModal = () => {
         rounded
         label="Check demo version"
         severity="secondary"
-        className="mb-5 md:mb-8"></Button>
+        className="mb-5 md:mb-6"></Button>
       <p className="w-10 md:w-10 mb-4 text-xs">
         In order to save your progress, you will need to log in via Google Account. This way, you
         can easily pick up where you left off and keep track of your accomplishments.
