@@ -2,6 +2,9 @@
 import { auth, provider } from '../../../config/firebase-config';
 import { signInWithPopup } from 'firebase/auth';
 
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 import { Button } from 'primereact/button';
 
 const LoginModal = () => {
