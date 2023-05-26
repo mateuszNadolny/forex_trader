@@ -1,6 +1,14 @@
+'use client';
+import { auth, provider } from '../../../config/firebase-config';
+import { signInWithPopup } from 'firebase/auth';
+
 import { Button } from 'primereact/button';
 
 const LoginModal = () => {
+  const signInWithGoogle = async () => {
+    await signInWithPopup(auth, provider);
+  };
+
   return (
     <div className="text-center px-2 py-4 flex flex-column align-items-center justify-content-end bg-primary border-round-md md:h-full">
       <h2 className="md:mb-6 md:text-6xl mb-5">Get started</h2>
@@ -8,12 +16,10 @@ const LoginModal = () => {
         rounded
         icon="pi pi-google"
         label="Sign in with Google"
-        className="surface-0 text-white-alpha-90 mb-5"></Button>
-      <Button
-        rounded
-        label="Check demo version"
-        severity="secondary"
-        className="mb-5 md:mb-6"></Button>
+        className="surface-0 text-white-alpha-90 mb-5"
+        onClick={signInWithGoogle}
+      />
+      <Button rounded label="Check demo version" severity="secondary" className="mb-5 md:mb-6" />
       <p className="w-10 md:w-10 mb-4 text-xs">
         In order to save your progress, you will need to log in via Google Account. This way, you
         can easily pick up where you left off and keep track of your accomplishments.
