@@ -6,7 +6,7 @@ import { Button } from 'primereact/button';
 
 const LoginModal = () => {
   const signInWithGoogle = async () => {
-    await signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, provider);
   };
 
   return (
