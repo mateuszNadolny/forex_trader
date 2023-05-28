@@ -6,7 +6,7 @@ const LoginWelcomeMessage = () => {
   return (
     <div className="w-12">
       <div>
-        <Fieldset legend="About the app" className="mb-3">
+        <Fieldset legend="About the app" className="mb-3 ">
           <p className="m-0">
             Welcome to our Forex Trading Simulator – a web application designed to provide a
             realistic trading experience using fictional representations of real-world currencies.

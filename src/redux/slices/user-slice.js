@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isLoggedIn: false,
-  cookie: ''
+  isDemo: false
 };
 
 export const userSlice = createSlice({
@@ -12,8 +12,8 @@ export const userSlice = createSlice({
     setIsLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
     },
-    setCookie: (state, action) => {
-      state.cookie = action.payload;
+    setIsDemo: (state, action) => {
+      state.isDemo = action.payload;
     }
   }
 });

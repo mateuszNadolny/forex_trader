@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux';
 
 import Image from 'next/image';
 
+import { query, collection, where, onSnapshot } from 'firebase/firestore';
+import { auth, db } from '../../../config/firebase-config';
+
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
 import { DataTable } from 'primereact/datatable';
@@ -35,6 +38,17 @@ const HistoryTable = () => {
   });
   const [data, setData] = useState([]);
   const [currencies] = useState(['EUR', 'PLN', 'USD', 'GBP']);
+
+  const transactionsRef = collection(db, 'transactions');
+  const currentUser = auth.currentUser.displayName;
+  let transactions = [];
+
+  const queryTransactions = query(transactionsRef, where('user', '==', currentUser));
+  onSnapshot(queryTransactions, (snapshot) => {
+    snapshot.forEach((doc) => {
+      transactions.push({ ...doc.data(), id: doc.id });
+    });
+  });
 
   useEffect(() => {
     const updatedTransactionsHistory = transactionsHistory.map((transaction) => {

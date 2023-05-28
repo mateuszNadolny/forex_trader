@@ -1,20 +1,36 @@
-'use client';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 import { auth, provider } from '../../../config/firebase-config';
 import { signInWithPopup } from 'firebase/auth';
+
+import { setIsLoggedIn } from '../../../redux/slices/user-slice';
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
+import LoginErrorMessage from './LoginErrorMessage';
 import { Button } from 'primereact/button';
 
 const LoginModal = () => {
+  const [isError, setIsError] = useState(false);
+  const dispatch = useDispatch();
+
   const signInWithGoogle = async () => {
-    const result = await signInWithPopup(auth, provider);
+    try {
+      const result = await signInWithPopup(auth, provider);
+      cookies.set('auth-token', result.user.refreshToken);
+      dispatch(setIsLoggedIn(true));
+    } catch (err) {
+      console.error(err);
+      setIsError(true);
+    }
   };
 
   return (
     <div className="text-center px-2 py-4 flex flex-column align-items-center justify-content-end bg-primary border-round-md md:h-full">
       <h2 className="md:mb-6 md:text-6xl mb-5">Get started</h2>
+      {isError && <LoginErrorMessage err={`We're having issues signin you in!`} />}
       <Button
         rounded
         icon="pi pi-google"

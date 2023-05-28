@@ -41,13 +41,15 @@ const MainHeader = () => {
           <button className={`${classes.accountBtn} mt-5`}>My account</button>
         </div>
       </Sidebar>
-      <Button
-        icon="pi pi-align-justify"
-        className="m-2"
-        rounded
-        text
-        onClick={() => setVisible(true)}
-      />
+      <div>
+        <Button
+          icon="pi pi-align-justify"
+          className="m-2"
+          rounded
+          text
+          onClick={() => setVisible(true)}
+        />
+      </div>
     </>
   );
 };

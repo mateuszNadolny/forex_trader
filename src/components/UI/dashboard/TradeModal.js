@@ -4,6 +4,9 @@ import { setCurrencyValue } from '../../../redux/slices/my-wallet-slice';
 import { addTransaction } from '../../../redux/slices/transactions-history-slice';
 import { useGetLatestRateQuery } from '../../../redux/api/apiSlice';
 
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { auth, db } from '../../../config/firebase-config';
+
 import { Card } from 'primereact/card';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
@@ -19,6 +22,7 @@ const TradeModal = () => {
   const toast = useRef(null);
   const myWallet = useSelector((state) => state.myWallet);
   const dispatch = useDispatch();
+  const transactionsRef = collection(db, 'transactions');
 
   const firstDropdownOptions = [
     { name: 'EUR', code: 'EUR' },
@@ -40,7 +44,7 @@ const TradeModal = () => {
     toast.current.show({ severity: obj.severity, summary: obj.summary, detail: obj.message });
   };
 
-  const exchangeCurrencyHandler = () => {
+  const exchangeCurrencyHandler = async () => {
     if (myWallet[firstSelectedCurrency] < amountToExchange) {
       const toastParams = {
         severity: 'error',
@@ -79,6 +83,16 @@ const TradeModal = () => {
         date: new Date().toJSON().slice(0, 10)
       })
     );
+    await addDoc(transactionsRef, {
+      currencySold: firstSelectedCurrency,
+      currencySoldAmount: +amountToExchange,
+      currencyReceived: secondSelectedCurrency,
+      currencyReceivedAmount: +amountToReceive,
+      exchangeRate: data.data[secondSelectedCurrency].toFixed(2),
+      date: new Date().toJSON().slice(0, 10),
+      createdAt: serverTimestamp(),
+      user: auth.currentUser.displayName
+    });
     setAmountToExchange(0);
     setAmountToReceive(0);
     const toastParams = {
@@ -106,7 +120,7 @@ const TradeModal = () => {
 
   let content;
   if (isLoading) {
-    content = <ProgressSpinner />;
+    content = <ProgressSpinner className="max-w-3rem max-h-3rem" />;
   } else if (isError || !data) {
     content = <p>{error.message}</p>;
   } else if (data.data[secondSelectedCurrency]) {
@@ -172,7 +186,7 @@ const TradeModal = () => {
           />
         </div>
       </div>
-      <div className="flex mb-4 text-sm justify-content-center sm:justify-content-start">
+      <div className="flex mb-3 text-sm justify-content-center sm:justify-content-start">
         {content}
       </div>
       <div className="flex flex-wrap gap-3 w-12 xl:justify-content-between justify-content-center">
