@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import Image from 'next/image';
 
-import { query, collection, where, onSnapshot } from 'firebase/firestore';
+import { query, collection, where, orderBy, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '../../../config/firebase-config';
 
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
@@ -58,7 +58,8 @@ const HistoryTable = () => {
 
         const queryTransactions = query(
           transactionsRef,
-          where('user', '==', firebaseUser.displayName)
+          where('user', '==', firebaseUser.displayName),
+          orderBy('createdAt')
         );
 
         const unsubscribeSnapshot = onSnapshot(queryTransactions, (snapshot) => {
