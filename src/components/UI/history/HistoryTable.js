@@ -41,6 +41,17 @@ const HistoryTable = () => {
   const [currencies] = useState(['EUR', 'PLN', 'USD', 'GBP']);
 
   useEffect(() => {
+    // setting data for table for when user picks demo mode
+    if (user.isDemo) {
+      const updatedTransactionsHistory = transactionsHistory.map((transaction) => {
+        return { ...transaction, date: new Date(transaction.date) };
+      });
+
+      setData(updatedTransactionsHistory);
+      console.log(updatedTransactionsHistory);
+    }
+
+    // setting data for table for when user logs in via google
     const unsubscribeAuth = auth.onAuthStateChanged((firebaseUser) => {
       if (firebaseUser && !user.isDemo) {
         const transactionsRef = collection(db, 'transactions');
@@ -69,17 +80,6 @@ const HistoryTable = () => {
     return () => {
       unsubscribeAuth();
     };
-  }, [transactionsHistory]);
-
-  useEffect(() => {
-    if (user.isDemo) {
-      const updatedTransactionsHistory = transactionsHistory.map((transaction) => {
-        return { ...transaction, date: new Date(transaction.date) };
-      });
-
-      setData(updatedTransactionsHistory);
-      console.log(updatedTransactionsHistory);
-    }
   }, [transactionsHistory]);
 
   // setting body templates and filters for columns with currencies
