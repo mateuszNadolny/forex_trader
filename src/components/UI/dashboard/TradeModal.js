@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrencyValue } from '../../../redux/slices/my-wallet-slice';
+import { setWalletCurrencies } from '../../../redux/slices/my-wallet-slice';
 import { addTransaction } from '../../../redux/slices/transactions-history-slice';
 import { useGetLatestRateQuery } from '../../../redux/api/apiSlice';
 
@@ -24,6 +24,7 @@ const TradeModal = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const transactionsRef = collection(db, 'transactions');
+  const walletsRef = collection(db, 'wallets');
 
   const firstDropdownOptions = [
     { name: 'EUR', code: 'EUR' },
@@ -67,11 +68,11 @@ const TradeModal = () => {
       showToast(toastParams);
     }
     dispatch(
-      setCurrencyValue({
+      setWalletCurrencies({
         currencyToSell: firstSelectedCurrency,
         currencyToBuy: secondSelectedCurrency,
-        valueToSell: +amountToExchange,
-        valueToBuy: +amountToReceive
+        amountToSell: +amountToExchange,
+        amountToBuy: +amountToReceive
       })
     );
     dispatch(
@@ -92,6 +93,14 @@ const TradeModal = () => {
         currencyReceivedAmount: +amountToReceive,
         exchangeRate: data.data[secondSelectedCurrency].toFixed(2),
         date: new Date().toISOString(),
+        createdAt: serverTimestamp(),
+        user: auth.currentUser.displayName
+      });
+      await addDoc(walletsRef, {
+        currencyToSell: firstSelectedCurrency,
+        currencyToBuy: secondSelectedCurrency,
+        amountToSell: +amountToExchange,
+        amountToBuy: +amountToReceive,
         createdAt: serverTimestamp(),
         user: auth.currentUser.displayName
       });
