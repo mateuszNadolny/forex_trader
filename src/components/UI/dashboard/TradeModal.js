@@ -21,6 +21,7 @@ const TradeModal = () => {
   const [amountToReceive, setAmountToReceive] = useState(0);
   const toast = useRef(null);
   const myWallet = useSelector((state) => state.myWallet);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const transactionsRef = collection(db, 'transactions');
 
@@ -80,19 +81,21 @@ const TradeModal = () => {
         currencyReceived: secondSelectedCurrency,
         currencyReceivedAmount: +amountToReceive,
         exchangeRate: data.data[secondSelectedCurrency].toFixed(2),
-        date: new Date().toJSON().slice(0, 10)
+        date: new Date().toISOString()
       })
     );
-    await addDoc(transactionsRef, {
-      currencySold: firstSelectedCurrency,
-      currencySoldAmount: +amountToExchange,
-      currencyReceived: secondSelectedCurrency,
-      currencyReceivedAmount: +amountToReceive,
-      exchangeRate: data.data[secondSelectedCurrency].toFixed(2),
-      date: new Date().toJSON().slice(0, 10),
-      createdAt: serverTimestamp(),
-      user: auth.currentUser.displayName
-    });
+    if (!user.isDemo) {
+      await addDoc(transactionsRef, {
+        currencySold: firstSelectedCurrency,
+        currencySoldAmount: +amountToExchange,
+        currencyReceived: secondSelectedCurrency,
+        currencyReceivedAmount: +amountToReceive,
+        exchangeRate: data.data[secondSelectedCurrency].toFixed(2),
+        date: new Date().toISOString(),
+        createdAt: serverTimestamp(),
+        user: auth.currentUser.displayName
+      });
+    }
     setAmountToExchange(0);
     setAmountToReceive(0);
     const toastParams = {
