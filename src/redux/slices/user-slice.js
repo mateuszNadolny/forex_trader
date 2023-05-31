@@ -2,7 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isLoggedIn: false,
-  isDemo: false
+  isDemo: false,
+  photoURL: '',
+  displayName: ''
 };
 
 export const userSlice = createSlice({
@@ -14,11 +16,15 @@ export const userSlice = createSlice({
     },
     setIsDemo: (state, action) => {
       state.isDemo = action.payload;
-      console.log('dispatchng');
+    },
+    setUserData: (state, action) => {
+      console.log(action.payload.photoURL);
+      state.photoURL = action.payload.photoURL;
+      state.displayName = action.payload.displayName;
     }
   }
 });
 
-export const { setIsLoggedIn, setIsDemo } = userSlice.actions;
+export const { setIsLoggedIn, setIsDemo, setUserData } = userSlice.actions;
 
 export default userSlice;

@@ -5,9 +5,15 @@
 }
 
 .li,
-.accountBtn {
+.accountBtn,
+.liLogin {
   margin: 0 1.25rem 1rem 1.25rem;
   font-weight: var(--font-regular);
+}
+
+.liLogin:hover {
+  opacity: 0.7;
+  color: var(--primary-yellow);
 }
 
 .accountBtn {

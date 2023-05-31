@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { auth, provider } from '../../../config/firebase-config';
 import { signInWithPopup } from 'firebase/auth';
 
-import { setIsLoggedIn, setIsDemo } from '../../../redux/slices/user-slice';
+import { setIsLoggedIn, setIsDemo, setUserData } from '../../../redux/slices/user-slice';
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -21,6 +21,9 @@ const LoginModal = () => {
       const result = await signInWithPopup(auth, provider);
       cookies.set('auth-token', result.user.refreshToken);
       dispatch(setIsLoggedIn(true));
+      dispatch(
+        setUserData({ displayName: result.user.displayName, photoURL: result.user.photoURL })
+      );
     } catch (err) {
       console.error(err);
       setIsError(true);
