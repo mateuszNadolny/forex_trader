@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import CurrencyChart from './CurrencyChart';
 import MyCurrenciesModal from './MyCurrenciesModal';
 import TradeModal from './TradeModal';
-import UserPanel from './UserPanel';
+import UserPanel from '../../Layout/UserPanel';
 
 const CurrencyDashboard = () => {
   const user = useSelector((state) => state.user);

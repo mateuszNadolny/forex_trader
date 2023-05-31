@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
-
-import { useDispatch } from 'react-redux';
-import { setIsLoggedIn } from '@/redux/slices/user-slice';
-
 import Link from 'next/link';
 
-import HistoryTable from '../components/UI/history/HistoryTable';
-
+import { useDispatch } from 'react-redux';
+import { setIsLoggedIn } from '../redux/slices/user-slice';
 import { useSelector } from 'react-redux';
+
+import HistoryTable from '../components/UI/history/HistoryTable';
+import UserPanel from '../components/Layout/UserPanel';
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -25,6 +24,7 @@ const HistoryPage = () => {
     <>
       {user.isLoggedIn || user.isDemo ? (
         <>
+          <UserPanel />
           <h2 className="text-center mb-4 text-yellow-400">Check your transactions history</h2>
           <HistoryTable />
         </>
