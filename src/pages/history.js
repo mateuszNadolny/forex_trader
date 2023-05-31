@@ -11,10 +11,10 @@ const HistoryPage = () => {
   return (
     <>
       {user.isLoggedIn ? (
-        <>
+        <div className="fadein animation-duration-500">
           <h2 className="text-center mb-4 text-yellow-400">Check your transactions history</h2>
           <HistoryTable />
-        </>
+        </div>
       ) : (
         <div className="flex flex-column align-items-center mt-8">
           <h1>You must be logged in to see this page!</h1>
