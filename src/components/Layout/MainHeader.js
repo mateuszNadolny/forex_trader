@@ -21,20 +21,6 @@ const MainHeader = () => {
   return (
     <>
       <Sidebar visible={visible} onHide={() => setVisible(false)}>
-        {!user.isDemo && (
-          <div className="flex px-4 gap-4 mb-6">
-            <Image
-              className="border-round-2xl"
-              src={user.photoURL}
-              alt={`${user.displayName}'s profile pic`}
-              width={30}
-              height={30}
-              loader={profilePicLoader}
-              unoptimized
-            />
-            <p>{user.displayName}</p>
-          </div>
-        )}
         <ul className={classes.ul}>
           <li className={classes.li}>
             <Link
@@ -56,25 +42,7 @@ const MainHeader = () => {
               History
             </Link>
           </li>
-          {user.isDemo && (
-            <li className={`${classes.liLogin} mt-8 hover:opacity-60`}>
-              <Link
-                href="/"
-                className="mt-5"
-                onClick={() => {
-                  setVisible(false);
-                  window.location.reload();
-                }}>
-                Click here to log in
-              </Link>
-            </li>
-          )}
         </ul>
-        {!user.isDemo && (
-          <div>
-            <button className={`${classes.accountBtn} mt-5`}>My account</button>
-          </div>
-        )}
       </Sidebar>
       <div>
         <Button
