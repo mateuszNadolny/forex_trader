@@ -1,17 +1,30 @@
+import { useEffect } from 'react';
+
+import { useDispatch } from 'react-redux';
+import { setIsLoggedIn } from '@/redux/slices/user-slice';
+
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 
 import HistoryTable from '../components/UI/history/HistoryTable';
 
 import { useSelector } from 'react-redux';
 
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 const HistoryPage = () => {
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const authToken = cookies.get('auth-token');
+    dispatch(setIsLoggedIn(!!authToken));
+  }, [dispatch]);
 
   return (
     <>
-      {user.isLoggedIn ? (
-        <div className="fadein animation-duration-500">
+      {user.isLoggedIn || user.isDemo ? (
+        <>
           <h2 className="text-center mb-4 text-yellow-400">Check your transactions history</h2>
           <HistoryTable />
         </div>
@@ -27,4 +40,4 @@ const HistoryPage = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(HistoryPage), { ssr: false });
+export default HistoryPage;

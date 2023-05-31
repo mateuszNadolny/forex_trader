@@ -11,14 +11,14 @@ export const myWalletSlice = createSlice({
   name: 'myWallet',
   initialState,
   reducers: {
-    setCurrencyValue: (state, action) => {
-      const { currencyToSell, currencyToBuy, valueToSell, valueToBuy } = action.payload;
-      state[currencyToSell] = (+state[currencyToSell] - valueToSell).toFixed(2);
-      state[currencyToBuy] = (+state[currencyToBuy] + valueToBuy).toFixed(2);
+    setWalletCurrencies: (state, action) => {
+      const { currencyToSell, currencyToBuy, amountToSell, amountToBuy } = action.payload;
+      state[currencyToSell] = (+state[currencyToSell] - amountToSell).toFixed(2);
+      state[currencyToBuy] = (+state[currencyToBuy] + amountToBuy).toFixed(2);
     }
   }
 });
 
-export const { setCurrencyValue } = myWalletSlice.actions;
+export const { setWalletCurrencies } = myWalletSlice.actions;
 
 export default myWalletSlice;

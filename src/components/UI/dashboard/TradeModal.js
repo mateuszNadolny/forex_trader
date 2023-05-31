@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrencyValue } from '../../../redux/slices/my-wallet-slice';
+import { setWalletCurrencies } from '../../../redux/slices/my-wallet-slice';
 import { addTransaction } from '../../../redux/slices/transactions-history-slice';
 import { useGetLatestRateQuery } from '../../../redux/api/apiSlice';
 
@@ -21,8 +21,10 @@ const TradeModal = () => {
   const [amountToReceive, setAmountToReceive] = useState(0);
   const toast = useRef(null);
   const myWallet = useSelector((state) => state.myWallet);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const transactionsRef = collection(db, 'transactions');
+  const walletsRef = collection(db, 'wallets');
 
   const firstDropdownOptions = [
     { name: 'EUR', code: 'EUR' },
@@ -66,11 +68,11 @@ const TradeModal = () => {
       showToast(toastParams);
     }
     dispatch(
-      setCurrencyValue({
+      setWalletCurrencies({
         currencyToSell: firstSelectedCurrency,
         currencyToBuy: secondSelectedCurrency,
-        valueToSell: +amountToExchange,
-        valueToBuy: +amountToReceive
+        amountToSell: +amountToExchange,
+        amountToBuy: +amountToReceive
       })
     );
     dispatch(
@@ -80,19 +82,29 @@ const TradeModal = () => {
         currencyReceived: secondSelectedCurrency,
         currencyReceivedAmount: +amountToReceive,
         exchangeRate: data.data[secondSelectedCurrency].toFixed(2),
-        date: new Date().toJSON().slice(0, 10)
+        date: new Date().toISOString()
       })
     );
-    await addDoc(transactionsRef, {
-      currencySold: firstSelectedCurrency,
-      currencySoldAmount: +amountToExchange,
-      currencyReceived: secondSelectedCurrency,
-      currencyReceivedAmount: +amountToReceive,
-      exchangeRate: data.data[secondSelectedCurrency].toFixed(2),
-      date: new Date().toJSON().slice(0, 10),
-      createdAt: serverTimestamp(),
-      user: auth.currentUser.displayName
-    });
+    if (!user.isDemo) {
+      await addDoc(transactionsRef, {
+        currencySold: firstSelectedCurrency,
+        currencySoldAmount: +amountToExchange,
+        currencyReceived: secondSelectedCurrency,
+        currencyReceivedAmount: +amountToReceive,
+        exchangeRate: data.data[secondSelectedCurrency].toFixed(2),
+        date: new Date().toISOString(),
+        createdAt: serverTimestamp(),
+        user: auth.currentUser.displayName
+      });
+      await addDoc(walletsRef, {
+        currencyToSell: firstSelectedCurrency,
+        currencyToBuy: secondSelectedCurrency,
+        amountToSell: +amountToExchange,
+        amountToBuy: +amountToReceive,
+        createdAt: serverTimestamp(),
+        user: auth.currentUser.displayName
+      });
+    }
     setAmountToExchange(0);
     setAmountToReceive(0);
     const toastParams = {

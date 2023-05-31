@@ -14,10 +14,11 @@ export const userSlice = createSlice({
     },
     setIsDemo: (state, action) => {
       state.isDemo = action.payload;
+      console.log('dispatchng');
     }
   }
 });
 
-export const { setIsLoggedIn, setCookie } = userSlice.actions;
+export const { setIsLoggedIn, setIsDemo } = userSlice.actions;
 
 export default userSlice;

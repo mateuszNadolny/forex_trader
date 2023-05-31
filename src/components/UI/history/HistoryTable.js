@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import Image from 'next/image';
 
-import { query, collection, where, onSnapshot } from 'firebase/firestore';
+import { query, collection, where, orderBy, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '../../../config/firebase-config';
 
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
@@ -16,6 +16,7 @@ import { InputNumber } from 'primereact/inputnumber';
 
 const HistoryTable = () => {
   const transactionsHistory = useSelector((state) => state.transactionsHistory);
+  const user = useSelector((state) => state.user);
   const [filters, setFilters] = useState({
     currencySold: { value: null, matchMode: FilterMatchMode.IN },
     currencyReceived: { value: null, matchMode: FilterMatchMode.IN },
@@ -39,23 +40,47 @@ const HistoryTable = () => {
   const [data, setData] = useState([]);
   const [currencies] = useState(['EUR', 'PLN', 'USD', 'GBP']);
 
-  const transactionsRef = collection(db, 'transactions');
-  const currentUser = auth.currentUser.displayName;
-  let transactions = [];
-
-  const queryTransactions = query(transactionsRef, where('user', '==', currentUser));
-  onSnapshot(queryTransactions, (snapshot) => {
-    snapshot.forEach((doc) => {
-      transactions.push({ ...doc.data(), id: doc.id });
-    });
-  });
-
   useEffect(() => {
-    const updatedTransactionsHistory = transactionsHistory.map((transaction) => {
-      return { ...transaction, date: new Date(transaction.date) };
+    // setting data for table for when user picks demo mode
+    if (user.isDemo) {
+      const updatedTransactionsHistory = transactionsHistory.map((transaction) => {
+        return { ...transaction, date: new Date(transaction.date) };
+      });
+
+      setData(updatedTransactionsHistory);
+      console.log(updatedTransactionsHistory);
+    }
+
+    // setting data for table for when user logs in via google
+    const unsubscribeAuth = auth.onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser && !user.isDemo) {
+        const transactionsRef = collection(db, 'transactions');
+
+        const queryTransactions = query(
+          transactionsRef,
+          where('user', '==', firebaseUser.displayName),
+          orderBy('createdAt')
+        );
+
+        const unsubscribeSnapshot = onSnapshot(queryTransactions, (snapshot) => {
+          let transactions = [];
+          snapshot.forEach((doc) => {
+            transactions.push({ ...doc.data(), id: doc.id, date: new Date(doc.data().date) });
+          });
+          setData(transactions);
+        });
+
+        // Cleanup for snapshot listener
+        return () => {
+          unsubscribeSnapshot();
+        };
+      }
     });
 
-    setData(updatedTransactionsHistory);
+    // Cleanup for auth state change listener
+    return () => {
+      unsubscribeAuth();
+    };
   }, [transactionsHistory]);
 
   // setting body templates and filters for columns with currencies

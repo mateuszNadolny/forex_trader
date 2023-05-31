@@ -18,7 +18,7 @@ const HomePage = () => {
     dispatch(setIsLoggedIn(!!authToken));
   }, [dispatch]);
 
-  return <>{user.isLoggedIn ? <CurrencyDashboard /> : <LoginPage />}</>;
+  return <>{user.isLoggedIn || user.isDemo ? <CurrencyDashboard /> : <LoginPage />}</>;
 };
 
 export default HomePage;

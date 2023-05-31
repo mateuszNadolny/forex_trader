@@ -6,7 +6,7 @@ const Layout = (props) => {
   const user = useSelector((state) => state.user);
   return (
     <>
-      {user.isLoggedIn ? <MainHeader /> : <></>}
+      {user.isLoggedIn || user.isDemo ? <MainHeader /> : <></>}
       <main>{props.children}</main>
     </>
   );
