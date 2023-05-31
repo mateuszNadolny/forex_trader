@@ -16,15 +16,10 @@ export const userSlice = createSlice({
     },
     setIsDemo: (state, action) => {
       state.isDemo = action.payload;
-    },
-    setUserData: (state, action) => {
-      console.log(action.payload.photoURL);
-      state.photoURL = action.payload.photoURL;
-      state.displayName = action.payload.displayName;
     }
   }
 });
 
-export const { setIsLoggedIn, setIsDemo, setUserData } = userSlice.actions;
+export const { setIsLoggedIn, setIsDemo } = userSlice.actions;
 
 export default userSlice;

@@ -21,9 +21,6 @@ const LoginModal = () => {
       const result = await signInWithPopup(auth, provider);
       cookies.set('auth-token', result.user.refreshToken);
       dispatch(setIsLoggedIn(true));
-      dispatch(
-        setUserData({ displayName: result.user.displayName, photoURL: result.user.photoURL })
-      );
     } catch (err) {
       console.error(err);
       setIsError(true);

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
 
 import Link from 'next/link';
-import Image from 'next/image';
+
+import UserPanel from './UserPanel';
 
 import { Sidebar } from 'primereact/sidebar';
 import { Button } from 'primereact/button';
@@ -11,15 +11,12 @@ import { Button } from 'primereact/button';
 import classes from './MainHeader.module.css';
 
 const MainHeader = () => {
-  const user = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
   const router = useRouter();
-  const profilePicLoader = ({ src, width, quality }) => {
-    return `${src}?w=${width}&q=${quality || 75}`;
-  };
 
   return (
     <>
+      <UserPanel />
       <Sidebar visible={visible} onHide={() => setVisible(false)}>
         <ul className={classes.ul}>
           <li className={classes.li}>
