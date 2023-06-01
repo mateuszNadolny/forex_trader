@@ -1,21 +1,34 @@
-import { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect, useRef, use } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Image from 'next/image';
 
 import { onAuthStateChanged } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import { auth } from '../../config/firebase-config';
+
+import { setIsLoggedIn } from '../../redux/slices/user-slice';
 
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { Button } from 'primereact/button';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 import classes from './UserPanel.module.css';
 
 const UserPanel = () => {
   const [currentUserData, setCurrentUserData] = useState({});
-  const user = useSelector((state) => state.user);
   const op = useRef(null);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const signUserOut = async () => {
+    await signOut(auth);
+    cookies.remove('auth-token');
+    dispatch(setIsLoggedIn(false));
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -35,11 +48,20 @@ const UserPanel = () => {
     return () => unsubscribe();
   }, []);
 
+  const confirmLogOut = () => {
+    confirmDialog({
+      message: 'Are you sure you want to log out?',
+      header: 'Log out Confirmation',
+      icon: 'pi pi-info-circle',
+      accept: signUserOut
+    });
+  };
+
   const confirmDelete = () => {
     confirmDialog({
       message: 'Are you sure you want to delete your account? Your progress will be lost',
       header: 'Delete Confirmation',
-      icon: 'pi pi-info-circle',
+      icon: 'pi pi-exclamation-triangle',
       acceptClassName: 'p-button-danger'
     });
   };
@@ -76,8 +98,8 @@ const UserPanel = () => {
           />
           <OverlayPanel ref={op}>
             <div className="flex flex-column gap-4">
-              <Button label="Log out" icon="pi pi-power-off" />
               <ConfirmDialog />
+              <Button label="Log out" icon="pi pi-power-off" onClick={confirmLogOut} />
               <Button
                 label="Delete account"
                 severity="danger"
