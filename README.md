@@ -1,38 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Forex Trader app
+[__LIVE SITE__](https://forex-trader-db0aa.web.app/)
+### _Real-life trading simulator_
 
-## Getting Started
+Welcome to our Forex Trading Simulator – a web application designed to provide a realistic trading experience using fictional representations of real-world currencies. Whether you are a budding trader, a seasoned professional seeking a risk-free trading arena, or just curious about the mechanics of forex trading, our platform offers an intuitive and engaging learning opportunity.
 
-First, run the development server:
+### Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- Log in via Google account to keep your progress
+- Trade among four currencies - Euro, American Dollar, British Pound and Polish Zloty
+- Check both present and historical rates with chart
+- Keep trace of all your transactions and filter them over time
+- Check demo version if you do not want to log in
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+_In order to save your progress, you will need to log in via Google Account. This way, you can easily pick up where you left off and keep track of your accomplishments._
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+_Alternatively, if you are just checking things out, feel free to use the demo version of this app. This allows you to explore all the features and see how everything works. However, please note that progress within the demo version will not be saved._
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Tech
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Forex trader uses a number of technologies to work properly:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [React.js](https://react.dev/)
+- [Next.js](https://nextjs.org/)
+- [Firebase](https://firebase.google.com/)
+- [Redux Toolkit with RTK Query](https://redux-toolkit.js.org/)
+- [Chart.js](https://www.chartjs.org/)
+- [Universal-Cookie](https://github.com/reactivestack/cookies/tree/master/packages/universal-cookie)
+- [PrimeReact](https://primereact.org/)
+- [PrimeFlex](https://www.primefaces.org/primeflex/)
