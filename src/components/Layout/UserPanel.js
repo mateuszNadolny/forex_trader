@@ -1,11 +1,12 @@
-import { useState, useEffect, useRef, use } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Image from 'next/image';
 
+import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { signOut } from 'firebase/auth';
-import { auth } from '../../config/firebase-config';
+import { auth, db } from '../../config/firebase-config';
 
 import { setIsLoggedIn } from '../../redux/slices/user-slice';
 
@@ -30,21 +31,42 @@ const UserPanel = () => {
     dispatch(setIsLoggedIn(false));
   };
 
+  const deleteUser = async () => {
+    const collectionsRef = ['transactions', 'wallets'];
+    const currentUser = auth.currentUser;
+    const currentUserName = auth.currentUser.displayName;
+
+    for (let collectionName of collectionsRef) {
+      const q = query(collection(db, collectionName), where('user', '==', currentUserName));
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((document) => {
+        deleteDoc(doc(db, collectionName, document.id));
+      });
+    }
+
+    try {
+      await currentUser.delete();
+      dispatch(setIsLoggedIn(false));
+      console.log('User deleted');
+    } catch (error) {
+      console.log('Error deleting user:', error);
+    }
+    await signUserOut();
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        // User is signed in, set the user object
         setCurrentUserData({
           displayName: currentUser.displayName,
           photoURL: currentUser.photoURL
         });
       } else {
-        // User is signed out
         setCurrentUserData(null);
       }
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
 
@@ -62,7 +84,8 @@ const UserPanel = () => {
       message: 'Are you sure you want to delete your account? Your progress will be lost',
       header: 'Delete Confirmation',
       icon: 'pi pi-exclamation-triangle',
-      acceptClassName: 'p-button-danger'
+      acceptClassName: 'p-button-danger',
+      accept: deleteUser
     });
   };
 
