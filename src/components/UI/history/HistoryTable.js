@@ -13,6 +13,8 @@ import { Column } from 'primereact/column';
 import { MultiSelect } from 'primereact/multiselect';
 import { Calendar } from 'primereact/calendar';
 import { InputNumber } from 'primereact/inputnumber';
+import { Card } from 'primereact/card';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 const HistoryTable = () => {
   const transactionsHistory = useSelector((state) => state.transactionsHistory);
@@ -39,6 +41,7 @@ const HistoryTable = () => {
   });
   const [data, setData] = useState([]);
   const [currencies] = useState(['EUR', 'PLN', 'USD', 'GBP']);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // setting data for table for when user picks demo mode
@@ -48,6 +51,7 @@ const HistoryTable = () => {
       });
 
       setData(updatedTransactionsHistory);
+      setLoading(false);
     }
 
     // setting data for table for when user logs in via google
@@ -67,6 +71,7 @@ const HistoryTable = () => {
             transactions.push({ ...doc.data(), id: doc.id, date: new Date(doc.data().date) });
           });
           setData(transactions);
+          setLoading(false);
         });
 
         // Cleanup for snapshot listener
@@ -190,6 +195,14 @@ const HistoryTable = () => {
       />
     );
   };
+
+  if (loading) {
+    return (
+      <Card className="flex justify-content-center align-items-center w-12">
+        <ProgressSpinner />
+      </Card>
+    );
+  }
 
   return (
     <DataTable
