@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { auth, provider } from '../../../config/firebase-config';
+import { setDoc, doc, collection, query, where, getDocs } from 'firebase/firestore';
+import { auth, provider, db } from '../../../config/firebase-config';
 import { signInWithPopup } from 'firebase/auth';
 
-import { setIsLoggedIn, setIsDemo, setUserData } from '../../../redux/slices/user-slice';
+import { setIsLoggedIn, setIsDemo } from '../../../redux/slices/user-slice';
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -15,11 +16,27 @@ import { Button } from 'primereact/button';
 const LoginModal = () => {
   const [isError, setIsError] = useState(false);
   const dispatch = useDispatch();
+  const walletsRef = collection(db, 'wallets');
 
   const signInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       cookies.set('auth-token', result.user.refreshToken);
+
+      // creating an user wallet when first logging in with google
+      const q = query(walletsRef, where('user', '==', result.user.uid));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        // User does not have a wallet, create one
+        await setDoc(doc(walletsRef, result.user.uid), {
+          user: result.user.uid,
+          username: result.user.displayName,
+          EUR: 0.0,
+          USD: 0.0,
+          GBP: 0.0,
+          PLN: 10000.0
+        });
+      }
       dispatch(setIsLoggedIn(true));
     } catch (err) {
       console.error(err);

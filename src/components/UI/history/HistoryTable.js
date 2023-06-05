@@ -48,7 +48,6 @@ const HistoryTable = () => {
       });
 
       setData(updatedTransactionsHistory);
-      console.log(updatedTransactionsHistory);
     }
 
     // setting data for table for when user logs in via google
@@ -58,7 +57,7 @@ const HistoryTable = () => {
 
         const queryTransactions = query(
           transactionsRef,
-          where('user', '==', firebaseUser.displayName),
+          where('user', '==', firebaseUser.uid),
           orderBy('createdAt')
         );
 

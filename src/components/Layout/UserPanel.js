@@ -34,10 +34,10 @@ const UserPanel = () => {
   const deleteUser = async () => {
     const collectionsRef = ['transactions', 'wallets'];
     const currentUser = auth.currentUser;
-    const currentUserName = auth.currentUser.displayName;
+    const currentUserID = auth.currentUser.uid;
 
     for (let collectionName of collectionsRef) {
-      const q = query(collection(db, collectionName), where('user', '==', currentUserName));
+      const q = query(collection(db, collectionName), where('user', '==', currentUserID));
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((document) => {
@@ -52,6 +52,7 @@ const UserPanel = () => {
     } catch (error) {
       console.log('Error deleting user:', error);
     }
+
     await signUserOut();
   };
 

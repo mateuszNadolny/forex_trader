@@ -4,7 +4,8 @@ import { setWalletCurrencies } from '../../../redux/slices/my-wallet-slice';
 import { addTransaction } from '../../../redux/slices/transactions-history-slice';
 import { useGetLatestRateQuery } from '../../../redux/api/apiSlice';
 
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, updateDoc, collection, doc, serverTimestamp, increment } from 'firebase/firestore';
+
 import { auth, db } from '../../../config/firebase-config';
 
 import { Card } from 'primereact/card';
@@ -23,8 +24,6 @@ const TradeModal = () => {
   const myWallet = useSelector((state) => state.myWallet);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const transactionsRef = collection(db, 'transactions');
-  const walletsRef = collection(db, 'wallets');
 
   const firstDropdownOptions = [
     { name: 'EUR', code: 'EUR' },
@@ -86,6 +85,9 @@ const TradeModal = () => {
       })
     );
     if (!user.isDemo) {
+      const transactionsRef = collection(db, 'transactions');
+      const userWalletRef = doc(db, 'wallets', auth.currentUser.uid);
+
       await addDoc(transactionsRef, {
         currencySold: firstSelectedCurrency,
         currencySoldAmount: +amountToExchange,
@@ -94,15 +96,12 @@ const TradeModal = () => {
         exchangeRate: data.data[secondSelectedCurrency].toFixed(2),
         date: new Date().toISOString(),
         createdAt: serverTimestamp(),
-        user: auth.currentUser.displayName
+        user: auth.currentUser.uid,
+        username: auth.currentUser.displayName
       });
-      await addDoc(walletsRef, {
-        currencyToSell: firstSelectedCurrency,
-        currencyToBuy: secondSelectedCurrency,
-        amountToSell: +amountToExchange,
-        amountToBuy: +amountToReceive,
-        createdAt: serverTimestamp(),
-        user: auth.currentUser.displayName
+      await updateDoc(userWalletRef, {
+        [firstSelectedCurrency]: increment(-amountToExchange),
+        [secondSelectedCurrency]: increment(amountToReceive)
       });
     }
     setAmountToExchange(0);
