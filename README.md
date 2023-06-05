@@ -1,8 +1,8 @@
-# Forex Trader app
+# Forex Trader Simulator
 [__LIVE SITE__](https://forex-trader-db0aa.web.app/)
 ### _Real-life trading simulator_
 
-Welcome to our Forex Trading Simulator – a web application designed to provide a realistic trading experience using fictional representations of real-world currencies. Whether you are a budding trader, a seasoned professional seeking a risk-free trading arena, or just curious about the mechanics of forex trading, our platform offers an intuitive and engaging learning opportunity.
+Welcome to Forex Trading Simulator – a web application designed to provide a realistic trading experience using fictional representations of real-world currencies. Whether you are a budding trader, a seasoned professional seeking a risk-free trading arena, or just curious about the mechanics of forex trading, our platform offers an intuitive and engaging learning opportunity.
 
 ### Features
 
