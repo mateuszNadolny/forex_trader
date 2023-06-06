@@ -9,7 +9,7 @@ import { getFirestore } from '@firebase/firestore';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'AIzaSyDB6larWuk9fO5uiAYcwTrhTSHHgXbpLB4',
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: 'forex-trader-db0aa.firebaseapp.com',
   projectId: 'forex-trader-db0aa',
   storageBucket: 'forex-trader-db0aa.appspot.com',

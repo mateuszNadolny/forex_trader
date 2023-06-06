@@ -5,7 +5,7 @@ export const currencyApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `https://api.freecurrencyapi.com/v1/`,
     prepareHeaders: (headers) => {
-      headers.set('apikey', process.env.NEXT_PUBLIC_API_KEY);
+      headers.set('apikey', process.env.NEXT_PUBLIC_CURRENCY_API_KEY);
       return headers;
     }
   }),
