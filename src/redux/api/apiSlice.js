@@ -5,7 +5,7 @@ export const currencyApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `https://api.freecurrencyapi.com/v1/`,
     prepareHeaders: (headers) => {
-      headers.set('apikey', 'QVQWzkx8xuv7RC74ioyn2oIkGqRQuWcQWBONFbG9');
+      headers.set('apikey', process.env.NEXT_PUBLIC_API_KEY);
       return headers;
     }
   }),
@@ -24,5 +24,3 @@ export const currencyApi = createApi({
 });
 
 export const { useGetLatestRateQuery, useGetHistoricalRateQuery } = currencyApi;
-
-// https://api.freecurrencyapi.com/v1/historical?apikey=QVQWzkx8xuv7RC74ioyn2oIkGqRQuWcQWBONFbG9&currencies=PLN&base_currency=EUR&date_from=2023-04-07T08%3A49%3A13.340Z&date_to=2023-04-17T08%3A49%3A13.341Z
