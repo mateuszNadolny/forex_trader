@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { setIsLoggedIn } from '../redux/slices/user-slice';
 import { useSelector } from 'react-redux';
 
+import Head from 'next/head';
+
 import HistoryTable from '../components/UI/history/HistoryTable';
 
 import Cookies from 'universal-cookie';
@@ -21,6 +23,13 @@ const HistoryPage = () => {
 
   return (
     <>
+      <Head>
+        <title>History of transactions | Forex Trading Simulator</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content="Forex Trading Simulator - a web application designed to provide a realistic trading experience using fictional representations of real-world currencies."></meta>
+      </Head>
       {user.isLoggedIn || user.isDemo ? (
         <div className="fadein animation-duration-1000">
           <h2 className="text-center mb-4 text-yellow-400">Check your transactions history</h2>
