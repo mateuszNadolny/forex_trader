@@ -23,6 +23,7 @@ export default function App({ Component, pageProps }) {
     <Provider store={store}>
       <Layout>
         <Head>
+          <title>Forex Trading Simulator</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
         <Component {...pageProps} />
