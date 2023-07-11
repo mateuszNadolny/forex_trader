@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -98,13 +99,11 @@ const UserPanel = () => {
     <div className={classes.userPanel}>
       {user.isDemo ? (
         <div className="px-2 lg:px-4 ">
-          <p
-            className="cursor-pointer hover:text-yellow-400 transition-duration-200"
-            onClick={() => {
-              window.location.reload();
-            }}>
-            Click here to log in
-          </p>
+          <Link href="/">
+            <p className="cursor-pointer hover:text-yellow-400 transition-duration-200">
+              Click here to log in
+            </p>
+          </Link>
         </div>
       ) : (
         <div className="flex align-items-center px-2 lg:px-4 gap-4 mb-6 ">
