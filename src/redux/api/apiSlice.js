@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const currencyApi = createApi({
   reducerPath: 'currencyApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `https://api.freecurrencyapi.com/v1/`,
+    baseUrl: `https://api.freecurrencyapi.com/v3/`,
     prepareHeaders: (headers) => {
       headers.set('apikey', process.env.NEXT_PUBLIC_CURRENCY_API_KEY);
       return headers;
